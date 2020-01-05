@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/trivia/C#/Trivia/packages/NUnit.3.12.0
+/trivia/C#/Trivia/Trivia.UnitTests/bin/Debug
+/trivia/C#/Trivia/Trivia.UnitTests/obj/Debug
