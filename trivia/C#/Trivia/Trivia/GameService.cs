@@ -5,9 +5,9 @@ namespace Trivia
 {
     public class GameService
     {
-        private static bool _notAWinner;
+        private bool _notAWinner;
 
-        public static void BeginGame()
+        public void BeginGame()
         {
             Game aGame = new Game();
 

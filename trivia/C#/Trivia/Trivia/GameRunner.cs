@@ -6,7 +6,7 @@ namespace Trivia
     {
         public static void Main(String[] args)
         {
-            GameService.BeginGame();
+            new GameService().BeginGame();
         }
     }
 
