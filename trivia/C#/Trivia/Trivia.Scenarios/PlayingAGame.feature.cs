@@ -75,13 +75,13 @@ namespace Trivia.Scenarios
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("There is only 1 player in the game and he is answering corret for 6 times")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
+        [NUnit.Framework.CategoryAttribute("live")]
         public virtual void ThereIsOnly1PlayerInTheGameAndHeIsAnsweringCorretFor6Times()
         {
             string[] tagsOfScenario = new string[] {
-                    "mytag"};
+                    "live"};
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is only 1 player in the game and he is answering corret for 6 times", null, new string[] {
-                        "mytag"});
+                        "live"});
 #line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -115,7 +115,123 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("Repeat rolling 2 and answering correctly for 5 more times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.Then("The last correct answer should return false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The last correct answer should return \"false\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("There is only 1 player in the game and he answers wrong for 1 time, so he need to" +
+            " make an odd roll and answer correcctly and then answer 5 times to win with odd " +
+            "rolling")]
+        [NUnit.Framework.CategoryAttribute("live")]
+        public virtual void ThereIsOnly1PlayerInTheGameAndHeAnswersWrongFor1TimeSoHeNeedToMakeAnOddRollAndAnswerCorrecctlyAndThenAnswer5TimesToWinWithOddRolling()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "live"};
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is only 1 player in the game and he answers wrong for 1 time, so he need to" +
+                    " make an odd roll and answer correcctly and then answer 5 times to win with odd " +
+                    "rolling", null, new string[] {
+                        "live"});
+#line 13
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 14
+ testRunner.Given("Player \"Chet\" have joined the game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 15
+ testRunner.And("Rolled 2 during the game play", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 16
+ testRunner.When("Player answers the question wrongly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 17
+ testRunner.And("Rolled 3 during the game play", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+ testRunner.And("Player answers the question correctly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 19
+ testRunner.And("Repeat rolling 3 and answering correctly for 5 more times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 20
+ testRunner.Then("The last correct answer should return \"false\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("There is only 1 player in the game and he answers wrong for 1 time, he made an ev" +
+            "en roll and answer correcctly and then answer 5 times with odd rolling then he w" +
+            "ill not win")]
+        [NUnit.Framework.CategoryAttribute("live")]
+        public virtual void ThereIsOnly1PlayerInTheGameAndHeAnswersWrongFor1TimeHeMadeAnEvenRollAndAnswerCorrecctlyAndThenAnswer5TimesWithOddRollingThenHeWillNotWin()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "live"};
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is only 1 player in the game and he answers wrong for 1 time, he made an ev" +
+                    "en roll and answer correcctly and then answer 5 times with odd rolling then he w" +
+                    "ill not win", null, new string[] {
+                        "live"});
+#line 23
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 24
+ testRunner.Given("Player \"Chet\" have joined the game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 25
+ testRunner.And("Rolled 2 during the game play", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 26
+ testRunner.When("Player answers the question wrongly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 27
+ testRunner.And("Rolled 2 during the game play", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 28
+ testRunner.And("Player answers the question correctly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 29
+ testRunner.And("Repeat rolling 3 and answering correctly for 5 more times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 30
+ testRunner.Then("The last correct answer should return \"true\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

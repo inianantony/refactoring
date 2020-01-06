@@ -23,10 +23,22 @@ namespace Trivia.Scenarios.Steps
             _game.Roll(roll);
         }
 
+        [When(@"Rolled (.*) during the game play")]
+        public void WhenRolledDuringTheGamePlay(int roll)
+        {
+            GivenRolledDuringTheGamePlay(roll);
+        }
+
         [When(@"Player answers the question correctly")]
         public void WhenPlayerAnswersTheQuestionCorrectly()
         {
             _result = _game.WasCorrectlyAnswered();
+        }
+
+        [When(@"Player answers the question wrongly")]
+        public void WhenPlayerAnswersTheQuestionWrongly()
+        {
+            _result = _game.WrongAnswer();
         }
 
         [When(@"Repeat rolling (.*) and answering correctly for (.*) more times")]
@@ -39,12 +51,13 @@ namespace Trivia.Scenarios.Steps
             }
         }
 
-
-        [Then(@"The last correct answer should return false")]
-        public void ThenTheLastCorrectAnswerShouldReturnFalse()
+        [Then(@"The last correct answer should return ""(.*)""")]
+        public void ThenTheLastCorrectAnswerShouldReturn(string expectedString)
         {
-            Assert.AreEqual(false, _result);
+            var expected = expectedString == "true";
+            Assert.AreEqual(expected, _result);
         }
+
 
 
     }
