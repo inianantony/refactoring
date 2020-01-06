@@ -79,7 +79,7 @@ namespace Trivia.UnitTests
             //Make 6th call
             bool actual = _game.WasCorrectlyAnswered();
 
-            Assert.AreEqual(false, actual);
+            Assert.AreEqual(true, actual);
         }
 
     }
