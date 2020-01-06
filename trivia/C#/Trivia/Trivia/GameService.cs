@@ -23,11 +23,11 @@ namespace Trivia
 
                 if (rand.Next(9) == 7)
                 {
-                    _notAWinner = aGame.wrongAnswer();
+                    _notAWinner = aGame.WrongAnswer();
                 }
                 else
                 {
-                    _notAWinner = aGame.wasCorrectlyAnswered();
+                    _notAWinner = aGame.WasCorrectlyAnswered();
                 }
             } while (_notAWinner);
         }

@@ -145,7 +145,7 @@ namespace UglyTrivia
             return "Rock";
         }
 
-        public bool wasCorrectlyAnswered()
+        public bool WasCorrectlyAnswered()
         {
             if (inPenaltyBox[currentPlayer])
             {
@@ -192,7 +192,7 @@ namespace UglyTrivia
             }
         }
 
-        public bool wrongAnswer()
+        public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(players[currentPlayer] + " was sent to the penalty box");

@@ -41,7 +41,16 @@ namespace Trivia.UnitTests
         {
             _game.Add("Player 1");
 
-            var actual = _game.wrongAnswer();
+            var actual = _game.WrongAnswer();
+            Assert.AreEqual(true, actual);
+        }
+
+        [Test]
+        public void WasCorrectlyAnswered_ShouldReturnTrue()
+        {
+            _game.Add("Player 1");
+
+            var actual = _game.WasCorrectlyAnswered();
             Assert.AreEqual(true, actual);
         }
     }
