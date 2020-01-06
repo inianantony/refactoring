@@ -21,5 +21,19 @@ namespace Trivia.UnitTests
             var actual = _game.Add(name);
             Assert.AreEqual(true, actual);
         }
+
+        [TestCase(0, Description = "pass roll value 0")]
+        [TestCase(1, Description = "pass roll value 1")]
+        [TestCase(10, Description = "pass roll value 10")]
+        [TestCase(-1, Description = "pass roll value -1")]
+        [TestCase(10000, Description = "pass roll value 10000")]
+        public void Roll_ShouldNotThrowException(int roll)
+        {
+            _game.Add("Player 1");
+            Assert.DoesNotThrow(() =>
+            {
+                _game.roll(roll);
+            });
+        }
     }
 }
