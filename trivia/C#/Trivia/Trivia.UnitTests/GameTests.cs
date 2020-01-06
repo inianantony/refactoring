@@ -32,8 +32,17 @@ namespace Trivia.UnitTests
             _game.Add("Player 1");
             Assert.DoesNotThrow(() =>
             {
-                _game.roll(roll);
+                _game.Roll(roll);
             });
+        }
+
+        [Test]
+        public void WrongAnswer_ShouldAlwaysReturnTrue()
+        {
+            _game.Add("Player 1");
+
+            var actual = _game.wrongAnswer();
+            Assert.AreEqual(true, actual);
         }
     }
 }
