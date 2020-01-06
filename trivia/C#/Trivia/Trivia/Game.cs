@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace UglyTrivia
 {
@@ -45,7 +44,7 @@ namespace UglyTrivia
             return (howManyPlayers() >= 2);
         }
 
-        public bool add(String playerName)
+        public bool Add(String playerName)
         {
 
 
