@@ -37,7 +37,7 @@ namespace Trivia.UnitTests
         }
 
         [Test]
-        public void WrongAnswer_ShouldAlwaysReturnTrue()
+        public void WrongAnswer_ShouldAlwaysReturn_True()
         {
             _game.Add("Player 1");
 
@@ -46,12 +46,41 @@ namespace Trivia.UnitTests
         }
 
         [Test]
-        public void WasCorrectlyAnswered_ShouldReturnTrue()
+        public void WasCorrectlyAnswered_ShouldReturn_True()
         {
             _game.Add("Player 1");
 
             var actual = _game.WasCorrectlyAnswered();
             Assert.AreEqual(true, actual);
         }
+
+        [Test]
+        public void WasCorrectlyAnswered_ShouldReturn_False_For_6th_Call()
+        {
+            _game.Add("Player 1");
+
+            //Make 5 calls
+            for (var i = 1; i <= 5; i++)
+                _game.WasCorrectlyAnswered();
+            //Make 6th call
+            bool actual = _game.WasCorrectlyAnswered();
+
+            Assert.AreEqual(false, actual);
+        }
+
+        [Test]
+        public void WasCorrectlyAnswered_ShouldReturn_True_For_7th_Call()
+        {
+            _game.Add("Player 1");
+
+            //Make 5 calls
+            for (var i = 1; i <= 6; i++)
+                _game.WasCorrectlyAnswered();
+            //Make 6th call
+            bool actual = _game.WasCorrectlyAnswered();
+
+            Assert.AreEqual(false, actual);
+        }
+
     }
 }
