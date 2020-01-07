@@ -12,6 +12,9 @@ namespace UglyTrivia
 
         public int[] _places = new int[6];
 
+        public int[] _purses = new int[6];
+
+
         public GamePlayers()
         {
             _currentPlayer = 0;
@@ -31,7 +34,6 @@ namespace UglyTrivia
     public class Game
     {
 
-        readonly int[] _purses = new int[6];
 
         readonly bool[] _inPenaltyBox = new bool[6];
 
@@ -72,7 +74,7 @@ namespace UglyTrivia
             _gamePlayers.AddPlayer(player);
 
             _gamePlayers._places[HowManyPlayers()] = 0;
-            _purses[HowManyPlayers()] = 0;
+            _gamePlayers._purses[HowManyPlayers()] = 0;
             _inPenaltyBox[HowManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
@@ -174,10 +176,10 @@ namespace UglyTrivia
                 if (_isGettingOutOfPenaltyBox)
                 {
                     Console.WriteLine("Answer was correct!!!!");
-                    _purses[_gamePlayers._currentPlayer]++;
+                    _gamePlayers._purses[_gamePlayers._currentPlayer]++;
                     Console.WriteLine(_gamePlayers.CurrentPlayerName()
                                       + " now has "
-                                      + _purses[_gamePlayers._currentPlayer]
+                                      + _gamePlayers._purses[_gamePlayers._currentPlayer]
                                       + " Gold Coins.");
 
                     bool winner = DidPlayerWin();
@@ -200,10 +202,10 @@ namespace UglyTrivia
             {
 
                 Console.WriteLine("Answer was corrent!!!!");
-                _purses[_gamePlayers._currentPlayer]++;
+                _gamePlayers._purses[_gamePlayers._currentPlayer]++;
                 Console.WriteLine(_gamePlayers.CurrentPlayerName()
                                   + " now has "
-                                  + _purses[_gamePlayers._currentPlayer]
+                                  + _gamePlayers._purses[_gamePlayers._currentPlayer]
                                   + " Gold Coins.");
 
                 bool winner = DidPlayerWin();
@@ -228,7 +230,7 @@ namespace UglyTrivia
 
         private bool DidPlayerWin()
         {
-            return !(_purses[_gamePlayers._currentPlayer] == 6);
+            return !(_gamePlayers._purses[_gamePlayers._currentPlayer] == 6);
         }
     }
 
