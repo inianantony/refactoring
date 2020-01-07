@@ -14,6 +14,7 @@ namespace UglyTrivia
 
         public int[] _purses = new int[6];
 
+        public bool[] _inPenaltyBox = new bool[6];
 
         public GamePlayers()
         {
@@ -29,14 +30,25 @@ namespace UglyTrivia
         {
             return _gamePlayers[_currentPlayer].PlayerName;
         }
+
+        public int HowManyPlayers()
+        {
+            return _players.Count;
+        }
+
+        public void InitPurses()
+        {
+            this._purses[this.HowManyPlayers()] = 0;
+        }
+
+        public void InitPlaces()
+        {
+            this._places[this.HowManyPlayers()] = 0;
+        }
     }
 
     public class Game
     {
-
-
-        readonly bool[] _inPenaltyBox = new bool[6];
-
         readonly LinkedList<string> _popQuestions = new LinkedList<string>();
         readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
         readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
@@ -66,25 +78,20 @@ namespace UglyTrivia
 
         public bool IsPlayable()
         {
-            return (HowManyPlayers() >= 2);
+            return (_gamePlayers.HowManyPlayers() >= 2);
         }
 
         public bool Add(string playerName, Player player)
         {
             _gamePlayers.AddPlayer(player);
 
-            _gamePlayers._places[HowManyPlayers()] = 0;
-            _gamePlayers._purses[HowManyPlayers()] = 0;
-            _inPenaltyBox[HowManyPlayers()] = false;
+            _gamePlayers.InitPlaces();
+            _gamePlayers.InitPurses();
+            _gamePlayers._inPenaltyBox[_gamePlayers.HowManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + _gamePlayers._players.Count);
             return true;
-        }
-
-        public int HowManyPlayers()
-        {
-            return _gamePlayers._players.Count;
         }
 
         public void Roll(int roll)
@@ -92,7 +99,7 @@ namespace UglyTrivia
             Console.WriteLine(_gamePlayers.CurrentPlayerName() + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
 
-            if (_inPenaltyBox[_gamePlayers._currentPlayer])
+            if (_gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer])
             {
                 if (roll % 2 != 0)
                 {
@@ -171,7 +178,7 @@ namespace UglyTrivia
 
         public bool WasCorrectlyAnswered()
         {
-            if (_inPenaltyBox[_gamePlayers._currentPlayer])
+            if (_gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer])
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
@@ -220,7 +227,7 @@ namespace UglyTrivia
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(_gamePlayers.CurrentPlayerName() + " was sent to the penalty box");
-            _inPenaltyBox[_gamePlayers._currentPlayer] = true;
+            _gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer] = true;
 
             _gamePlayers._currentPlayer++;
             if (_gamePlayers._currentPlayer == _gamePlayers._players.Count) _gamePlayers._currentPlayer = 0;
