@@ -10,6 +10,8 @@ namespace UglyTrivia
         public int _currentPlayer;
         public List<string> _players => _gamePlayers.Select(a => a.PlayerName).ToList();
 
+        public int[] _places = new int[6];
+
         public GamePlayers()
         {
             _currentPlayer = 0;
@@ -29,7 +31,6 @@ namespace UglyTrivia
     public class Game
     {
 
-        readonly int[] _places = new int[6];
         readonly int[] _purses = new int[6];
 
         readonly bool[] _inPenaltyBox = new bool[6];
@@ -70,7 +71,7 @@ namespace UglyTrivia
         {
             _gamePlayers.AddPlayer(player);
 
-            _places[HowManyPlayers()] = 0;
+            _gamePlayers._places[HowManyPlayers()] = 0;
             _purses[HowManyPlayers()] = 0;
             _inPenaltyBox[HowManyPlayers()] = false;
 
@@ -96,12 +97,12 @@ namespace UglyTrivia
                     _isGettingOutOfPenaltyBox = true;
 
                     Console.WriteLine(_gamePlayers.CurrentPlayerName() + " is getting out of the penalty box");
-                    _places[_gamePlayers._currentPlayer] = _places[_gamePlayers._currentPlayer] + roll;
-                    if (_places[_gamePlayers._currentPlayer] > 11) _places[_gamePlayers._currentPlayer] = _places[_gamePlayers._currentPlayer] - 12;
+                    _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] + roll;
+                    if (_gamePlayers._places[_gamePlayers._currentPlayer] > 11) _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] - 12;
 
                     Console.WriteLine(_gamePlayers.CurrentPlayerName()
                                       + "'s new location is "
-                                      + _places[_gamePlayers._currentPlayer]);
+                                      + _gamePlayers._places[_gamePlayers._currentPlayer]);
                     Console.WriteLine("The category is " + CurrentCategory());
                     AskQuestion();
                 }
@@ -115,12 +116,12 @@ namespace UglyTrivia
             else
             {
 
-                _places[_gamePlayers._currentPlayer] = _places[_gamePlayers._currentPlayer] + roll;
-                if (_places[_gamePlayers._currentPlayer] > 11) _places[_gamePlayers._currentPlayer] = _places[_gamePlayers._currentPlayer] - 12;
+                _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] + roll;
+                if (_gamePlayers._places[_gamePlayers._currentPlayer] > 11) _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] - 12;
 
                 Console.WriteLine(_gamePlayers.CurrentPlayerName()
                                   + "'s new location is "
-                                  + _places[_gamePlayers._currentPlayer]);
+                                  + _gamePlayers._places[_gamePlayers._currentPlayer]);
                 Console.WriteLine("The category is " + CurrentCategory());
                 AskQuestion();
             }
@@ -154,15 +155,15 @@ namespace UglyTrivia
 
         private String CurrentCategory()
         {
-            if (_places[_gamePlayers._currentPlayer] == 0) return "Pop";
-            if (_places[_gamePlayers._currentPlayer] == 4) return "Pop";
-            if (_places[_gamePlayers._currentPlayer] == 8) return "Pop";
-            if (_places[_gamePlayers._currentPlayer] == 1) return "Science";
-            if (_places[_gamePlayers._currentPlayer] == 5) return "Science";
-            if (_places[_gamePlayers._currentPlayer] == 9) return "Science";
-            if (_places[_gamePlayers._currentPlayer] == 2) return "Sports";
-            if (_places[_gamePlayers._currentPlayer] == 6) return "Sports";
-            if (_places[_gamePlayers._currentPlayer] == 10) return "Sports";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 0) return "Pop";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 4) return "Pop";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 8) return "Pop";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 1) return "Science";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 5) return "Science";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 9) return "Science";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 2) return "Sports";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 6) return "Sports";
+            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 10) return "Sports";
             return "Rock";
         }
 
