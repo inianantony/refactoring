@@ -8,7 +8,7 @@ namespace UglyTrivia
     {
         public readonly List<Player> _gamePlayers = new List<Player>();
         public int _currentPlayer;
-        public List<string> _players = new List<string>();
+        public List<string> _players => _gamePlayers.Select(a => a.PlayerName).ToList();
 
         public GamePlayers()
         {
@@ -33,7 +33,7 @@ namespace UglyTrivia
         readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
         readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
-        
+
         bool _isGettingOutOfPenaltyBox;
         private readonly GamePlayers _gamePlayers;
 
@@ -64,7 +64,6 @@ namespace UglyTrivia
         {
             _gamePlayers.AddPlayer(player);
 
-            _gamePlayers._players.Add(playerName);
             _places[HowManyPlayers()] = 0;
             _purses[HowManyPlayers()] = 0;
             _inPenaltyBox[HowManyPlayers()] = false;
@@ -228,11 +227,11 @@ namespace UglyTrivia
 
     public class Player
     {
-        private readonly string _playerName;
+        public string PlayerName { get; }
 
         public Player(string playerName)
         {
-            _playerName = playerName;
+            PlayerName = playerName;
         }
     }
 }
