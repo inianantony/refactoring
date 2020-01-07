@@ -42,6 +42,13 @@ namespace UglyTrivia
             this.InitPurses();
             this.InitPenalty();
         }
+
+        public void MoveToRandomRoll(int roll)
+        {
+            this._places[this._currentPlayer] = this._places[this._currentPlayer] + roll;
+            if (this._places[this._currentPlayer] > 11)
+                this._places[this._currentPlayer] = this._places[this._currentPlayer] - 12;
+        }
     }
 
     public class Game
@@ -84,7 +91,7 @@ namespace UglyTrivia
             _gamePlayers.InitState();
 
             Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + _gamePlayers._players.Count);
+            Console.WriteLine("They are player number " + _gamePlayers.PlayerCount);
             return true;
         }
 
@@ -93,19 +100,16 @@ namespace UglyTrivia
             Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
 
-            if (_gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer])
+            if (CurrentPlayerIsInPenalty())
             {
                 if (roll % 2 != 0)
                 {
                     _isGettingOutOfPenaltyBox = true;
 
                     Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
-                    _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] + roll;
-                    if (_gamePlayers._places[_gamePlayers._currentPlayer] > 11) _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] - 12;
+                    _gamePlayers.MoveToRandomRoll(roll);
+                    LogTheRolling();
 
-                    Console.WriteLine(_gamePlayers.CurrentPlayerName
-                                      + "'s new location is "
-                                      + _gamePlayers._places[_gamePlayers._currentPlayer]);
                     Console.WriteLine("The category is " + CurrentCategory());
                     AskQuestion();
                 }
@@ -118,17 +122,25 @@ namespace UglyTrivia
             }
             else
             {
+                _gamePlayers.MoveToRandomRoll(roll); 
+                LogTheRolling();
 
-                _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] + roll;
-                if (_gamePlayers._places[_gamePlayers._currentPlayer] > 11) _gamePlayers._places[_gamePlayers._currentPlayer] = _gamePlayers._places[_gamePlayers._currentPlayer] - 12;
-
-                Console.WriteLine(_gamePlayers.CurrentPlayerName
-                                  + "'s new location is "
-                                  + _gamePlayers._places[_gamePlayers._currentPlayer]);
                 Console.WriteLine("The category is " + CurrentCategory());
                 AskQuestion();
             }
 
+        }
+
+        private void LogTheRolling()
+        {
+            Console.WriteLine(_gamePlayers.CurrentPlayerName
+                              + "'s new location is "
+                              + _gamePlayers._places[_gamePlayers._currentPlayer]);
+        }
+
+        private bool CurrentPlayerIsInPenalty()
+        {
+            return _gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer];
         }
 
         private void AskQuestion()
@@ -185,14 +197,14 @@ namespace UglyTrivia
 
                     bool winner = DidPlayerWin();
                     _gamePlayers._currentPlayer++;
-                    if (_gamePlayers._currentPlayer == _gamePlayers._players.Count) _gamePlayers._currentPlayer = 0;
+                    if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
 
                     return winner;
                 }
                 else
                 {
                     _gamePlayers._currentPlayer++;
-                    if (_gamePlayers._currentPlayer == _gamePlayers._players.Count) _gamePlayers._currentPlayer = 0;
+                    if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
                     return true;
                 }
 
@@ -211,7 +223,7 @@ namespace UglyTrivia
 
                 bool winner = DidPlayerWin();
                 _gamePlayers._currentPlayer++;
-                if (_gamePlayers._currentPlayer == _gamePlayers._players.Count) _gamePlayers._currentPlayer = 0;
+                if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
 
                 return winner;
             }
@@ -224,7 +236,7 @@ namespace UglyTrivia
             _gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer] = true;
 
             _gamePlayers._currentPlayer++;
-            if (_gamePlayers._currentPlayer == _gamePlayers._players.Count) _gamePlayers._currentPlayer = 0;
+            if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
             return true;
         }
 
