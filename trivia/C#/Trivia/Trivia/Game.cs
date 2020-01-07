@@ -31,19 +31,31 @@ namespace UglyTrivia
             return _gamePlayers[_currentPlayer].PlayerName;
         }
 
-        public int HowManyPlayers()
+        public int PlayerCount()
         {
             return _players.Count;
         }
 
         public void InitPurses()
         {
-            this._purses[this.HowManyPlayers()] = 0;
+            this._purses[this.PlayerCount()] = 0;
         }
 
         public void InitPlaces()
         {
-            this._places[this.HowManyPlayers()] = 0;
+            this._places[this.PlayerCount()] = 0;
+        }
+
+        public void InitPenalty()
+        {
+            this._inPenaltyBox[this.PlayerCount()] = false;
+        }
+
+        public void InitState()
+        {
+            this.InitPlaces();
+            this.InitPurses();
+            this.InitPenalty();
         }
     }
 
@@ -78,16 +90,13 @@ namespace UglyTrivia
 
         public bool IsPlayable()
         {
-            return (_gamePlayers.HowManyPlayers() >= 2);
+            return (_gamePlayers.PlayerCount() >= 2);
         }
 
         public bool Add(string playerName, Player player)
         {
             _gamePlayers.AddPlayer(player);
-
-            _gamePlayers.InitPlaces();
-            _gamePlayers.InitPurses();
-            _gamePlayers._inPenaltyBox[_gamePlayers.HowManyPlayers()] = false;
+            _gamePlayers.InitState();
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + _gamePlayers._players.Count);
