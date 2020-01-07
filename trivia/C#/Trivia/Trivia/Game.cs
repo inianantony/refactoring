@@ -43,12 +43,16 @@ namespace UglyTrivia
             this.InitPenalty();
         }
 
-        public void MoveToRandomRoll(int roll)
+        public void MoveToRandomPlace(int roll)
         {
             this._places[this._currentPlayer] = this._places[this._currentPlayer] + roll;
             if (this._places[this._currentPlayer] > 11)
                 this._places[this._currentPlayer] = this._places[this._currentPlayer] - 12;
         }
+
+        public bool CurrentPlayerIsInPenalty => this._inPenaltyBox[this._currentPlayer];
+
+        public int CurrentPlayersPlace => this._places[this._currentPlayer];
     }
 
     public class Game
@@ -100,17 +104,17 @@ namespace UglyTrivia
             Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
 
-            if (CurrentPlayerIsInPenalty())
+            if (_gamePlayers.CurrentPlayerIsInPenalty)
             {
                 if (roll % 2 != 0)
                 {
                     _isGettingOutOfPenaltyBox = true;
 
                     Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
-                    _gamePlayers.MoveToRandomRoll(roll);
+                    _gamePlayers.MoveToRandomPlace(roll);
                     LogTheRolling();
 
-                    Console.WriteLine("The category is " + CurrentCategory());
+                    Console.WriteLine("The category is " + CurrentCategory(_gamePlayers.CurrentPlayersPlace));
                     AskQuestion();
                 }
                 else
@@ -122,10 +126,10 @@ namespace UglyTrivia
             }
             else
             {
-                _gamePlayers.MoveToRandomRoll(roll); 
+                _gamePlayers.MoveToRandomPlace(roll); 
                 LogTheRolling();
 
-                Console.WriteLine("The category is " + CurrentCategory());
+                Console.WriteLine("The category is " + CurrentCategory(_gamePlayers.CurrentPlayersPlace));
                 AskQuestion();
             }
 
@@ -138,29 +142,25 @@ namespace UglyTrivia
                               + _gamePlayers._places[_gamePlayers._currentPlayer]);
         }
 
-        private bool CurrentPlayerIsInPenalty()
-        {
-            return _gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer];
-        }
-
         private void AskQuestion()
         {
-            if (CurrentCategory() == "Pop")
+            var currentCategory = CurrentCategory(_gamePlayers.CurrentPlayersPlace);
+            if (currentCategory == "Pop")
             {
                 Console.WriteLine(_popQuestions.First());
                 _popQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == "Science")
+            if (currentCategory == "Science")
             {
                 Console.WriteLine(_scienceQuestions.First());
                 _scienceQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == "Sports")
+            if (currentCategory == "Sports")
             {
                 Console.WriteLine(_sportsQuestions.First());
                 _sportsQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == "Rock")
+            if (currentCategory == "Rock")
             {
                 Console.WriteLine(_rockQuestions.First());
                 _rockQuestions.RemoveFirst();
@@ -168,23 +168,23 @@ namespace UglyTrivia
         }
 
 
-        private String CurrentCategory()
+        private string CurrentCategory(int place)
         {
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 0) return "Pop";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 4) return "Pop";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 8) return "Pop";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 1) return "Science";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 5) return "Science";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 9) return "Science";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 2) return "Sports";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 6) return "Sports";
-            if (_gamePlayers._places[_gamePlayers._currentPlayer] == 10) return "Sports";
+            if (place == 0) return "Pop";
+            if (place == 4) return "Pop";
+            if (place == 8) return "Pop";
+            if (place == 1) return "Science";
+            if (place == 5) return "Science";
+            if (place == 9) return "Science";
+            if (place == 2) return "Sports";
+            if (place == 6) return "Sports";
+            if (place == 10) return "Sports";
             return "Rock";
         }
 
         public bool WasCorrectlyAnswered()
         {
-            if (_gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer])
+            if (_gamePlayers.CurrentPlayerIsInPenalty)
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
