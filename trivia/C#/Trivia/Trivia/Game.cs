@@ -7,6 +7,7 @@ namespace UglyTrivia
     public class Game
     {
         readonly List<string> _players = new List<string>();
+        private readonly List<Player> _gamePlayers = new List<Player>();
 
         readonly int[] _places = new int[6];
         readonly int[] _purses = new int[6];
@@ -32,7 +33,7 @@ namespace UglyTrivia
             }
         }
 
-        public String CreateRockQuestion(int index)
+        public string CreateRockQuestion(int index)
         {
             return "Rock Question " + index;
         }
@@ -44,7 +45,7 @@ namespace UglyTrivia
 
         public bool Add(string playerName)
         {
-
+            _gamePlayers.Add(new Player(playerName));
 
             _players.Add(playerName);
             _places[HowManyPlayers()] = 0;
@@ -208,4 +209,13 @@ namespace UglyTrivia
         }
     }
 
+    public class Player
+    {
+        private readonly string _playerName;
+
+        public Player(string playerName)
+        {
+            _playerName = playerName;
+        }
+    }
 }
