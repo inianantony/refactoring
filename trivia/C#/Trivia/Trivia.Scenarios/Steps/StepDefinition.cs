@@ -14,7 +14,7 @@ namespace Trivia.Scenarios.Steps
         [Given(@"Player ""(.*)"" have joined the game")]
         public void GivenPlayerHaveJoinedTheGame(string playerName)
         {
-            _game.Add(playerName);
+            _game.Add(playerName, new Player(playerName));
         }
 
         [Given(@"Rolled (.*) during the game play")]

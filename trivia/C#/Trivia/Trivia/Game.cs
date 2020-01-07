@@ -4,10 +4,23 @@ using System.Linq;
 
 namespace UglyTrivia
 {
+    public class GamePlayers
+    {
+        public readonly List<Player> _gamePlayers = new List<Player>();
+
+        public GamePlayers()
+        {
+        }
+
+        public void AddPlayer(Player player)
+        {
+            _gamePlayers.Add(player);
+        }
+    }
+
     public class Game
     {
         readonly List<string> _players = new List<string>();
-        private readonly List<Player> _gamePlayers = new List<Player>();
 
         readonly int[] _places = new int[6];
         readonly int[] _purses = new int[6];
@@ -21,6 +34,7 @@ namespace UglyTrivia
 
         int _currentPlayer;
         bool _isGettingOutOfPenaltyBox;
+        private readonly GamePlayers _gamePlayers;
 
         public Game()
         {
@@ -31,6 +45,8 @@ namespace UglyTrivia
                 _sportsQuestions.AddLast(("Sports Question " + i));
                 _rockQuestions.AddLast(CreateRockQuestion(i));
             }
+
+            _gamePlayers = new GamePlayers();
         }
 
         public string CreateRockQuestion(int index)
@@ -43,9 +59,9 @@ namespace UglyTrivia
             return (HowManyPlayers() >= 2);
         }
 
-        public bool Add(string playerName)
+        public bool Add(string playerName, Player player)
         {
-            _gamePlayers.Add(new Player(playerName));
+            _gamePlayers.AddPlayer(player);
 
             _players.Add(playerName);
             _places[HowManyPlayers()] = 0;

@@ -18,7 +18,7 @@ namespace Trivia.UnitTests
         [TestCase("Name", Description = "pass valid name")]
         public void Add_Should_Return_True(string name)
         {
-            var actual = _game.Add(name);
+            var actual = _game.Add(name, new Player(name));
             Assert.AreEqual(true, actual);
         }
 
@@ -29,7 +29,7 @@ namespace Trivia.UnitTests
         [TestCase(10000, Description = "pass roll value 10000")]
         public void Roll_ShouldNotThrowException(int roll)
         {
-            _game.Add("Player 1");
+            _game.Add("Player 1", new Player("Player 1"));
             Assert.DoesNotThrow(() =>
             {
                 _game.Roll(roll);
@@ -39,7 +39,7 @@ namespace Trivia.UnitTests
         [Test]
         public void WrongAnswer_ShouldAlwaysReturn_True()
         {
-            _game.Add("Player 1");
+            _game.Add("Player 1", new Player("Player 1"));
 
             var actual = _game.WrongAnswer();
             Assert.AreEqual(true, actual);
@@ -48,7 +48,7 @@ namespace Trivia.UnitTests
         [Test]
         public void WasCorrectlyAnswered_ShouldReturn_True()
         {
-            _game.Add("Player 1");
+            _game.Add("Player 1", new Player("Player 1"));
 
             var actual = _game.WasCorrectlyAnswered();
             Assert.AreEqual(true, actual);
@@ -57,7 +57,7 @@ namespace Trivia.UnitTests
         [Test]
         public void WasCorrectlyAnswered_ShouldReturn_False_For_6th_Call()
         {
-            _game.Add("Player 1");
+            _game.Add("Player 1", new Player("Player 1"));
 
             //Make 5 calls
             for (var i = 1; i <= 5; i++)
@@ -71,7 +71,7 @@ namespace Trivia.UnitTests
         [Test]
         public void WasCorrectlyAnswered_ShouldReturn_True_For_7th_Call()
         {
-            _game.Add("Player 1");
+            _game.Add("Player 1", new Player("Player 1"));
 
             //Make 5 calls
             for (var i = 1; i <= 6; i++)
