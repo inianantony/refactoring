@@ -7,29 +7,25 @@ namespace UglyTrivia
     {
         private readonly GamePlayers _gamePlayers;
         private readonly GameQuestions _gameQuestions;
+        private readonly GameLogger _gameLogger;
 
         public Game()
         {
             _gamePlayers = new GamePlayers();
             _gameQuestions = new GameQuestions();
+            _gameLogger = new GameLogger();
         }
 
         public bool Add(string playerName, Player player)
         {
             _gamePlayers.AddPlayer(player);
-            LogPlayerAddition(playerName);
+            _gameLogger.LogPlayerAddition(_gamePlayers, playerName);
             return true;
-        }
-
-        private void LogPlayerAddition(string playerName)
-        {
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + _gamePlayers.PlayerCount);
         }
 
         public void Roll(int roll)
         {
-            LogIntroToRolling(roll);
+            _gameLogger.LogIntroToRolling(roll, _gamePlayers);
 
             if (_gamePlayers.CurrentPlayerIsInPenalty)
             {
@@ -40,21 +36,15 @@ namespace UglyTrivia
             if (canAskQuestion)
             {
                 DoTheRolling(roll);
-                Console.WriteLine("The category is " + _gameQuestions.CurrentCategory(_gamePlayers.CurrentPlayersPlace));
+                _gameLogger.LogQuestionCategory(_gameQuestions, _gamePlayers);
                 _gameQuestions.AskQuestion(_gamePlayers.CurrentPlayersPlace);
             }
-        }
-
-        private void LogIntroToRolling(int roll)
-        {
-            Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
-            Console.WriteLine("They have rolled a " + roll);
         }
 
         private void DoTheRolling(int roll)
         {
             _gamePlayers.MoveToRandomPlace(roll);
-            LogTheRolling();
+            _gameLogger.LogTheRolling(_gamePlayers);
         }
 
         private void GrantOrRevokeLiberty(int roll)
@@ -66,18 +56,13 @@ namespace UglyTrivia
                 _gamePlayers.NoLibertyForCurrentPlayer();
 
             var msgToggler = canGiveLiberty ? "" : " not";
-            var msg = $"{_gamePlayers.CurrentPlayerName} is{msgToggler} getting out of the penalty box";
+            var msg = _gameLogger.LogGrantOrRevokeLiberty(msgToggler, _gamePlayers);
             Console.WriteLine(msg);
         }
 
         private static bool IsOddRoll(int roll)
         {
             return roll % 2 != 0;
-        }
-
-        private void LogTheRolling()
-        {
-            Console.WriteLine($"{_gamePlayers.CurrentPlayerName}'s new location is {_gamePlayers.CurrentPlayersPlace}");
         }
 
         public bool WasCorrectlyAnswered()
@@ -96,7 +81,7 @@ namespace UglyTrivia
         {
             CorrectAnswerMsg();
             _gamePlayers.AddPointToCurrentPlayer();
-            LogGamePoint();
+            _gameLogger.LogGamePoint(_gamePlayers);
         }
 
         private static void CorrectAnswerMsg()
@@ -104,25 +89,15 @@ namespace UglyTrivia
             Console.WriteLine("Answer was correct!!!!");
         }
 
-        private void LogGamePoint()
-        {
-            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} now has {_gamePlayers.CurrentPlayerPoints} Gold Coins.");
-        }
-
         public bool WrongAnswer()
         {
             WrongAnswerMessage();
 
             _gamePlayers.GivePenaltyToCurrentPlayer();
-            LogSettingPenalty();
+            _gameLogger.LogSettingPenalty(_gamePlayers);
 
             _gamePlayers.MoveToNextPlayer();
             return true;
-        }
-
-        private void LogSettingPenalty()
-        {
-            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} was sent to the penalty box");
         }
 
         private static void WrongAnswerMessage()
