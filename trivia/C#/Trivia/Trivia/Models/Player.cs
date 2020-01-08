@@ -1,4 +1,6 @@
-﻿namespace Trivia.Models
+﻿using Trivia.Services;
+
+namespace Trivia.Models
 {
     public class Player
     {
@@ -15,9 +17,9 @@
 
         public bool IsWinner => Point == 6;
 
-        public void MoveToPlace(int roll)
+        public void MoveToPlace(Roll roll)
         {
-            Place += roll;
+            Place += roll.Value;
             if (Place > 11)
                 Place -= 12;
         }

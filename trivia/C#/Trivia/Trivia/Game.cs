@@ -1,5 +1,6 @@
 ﻿using System;
 using Trivia.Models;
+using Trivia.Services;
 
 namespace UglyTrivia
 {
@@ -25,44 +26,7 @@ namespace UglyTrivia
 
         public void Roll(int roll)
         {
-            _gameLogger.LogIntroToRolling(roll, _gamePlayers);
-
-            if (_gamePlayers.CurrentPlayerIsInPenalty)
-            {
-                GrantOrRevokeLiberty(roll);
-            }
-
-            var canAskQuestion = !_gamePlayers.CurrentPlayerIsInPenalty || IsOddRoll(roll);
-            if (canAskQuestion)
-            {
-                DoTheRolling(roll);
-                _gameLogger.LogQuestionCategory(_gameQuestions, _gamePlayers);
-                _gameQuestions.AskQuestion(_gamePlayers.CurrentPlayersPlace);
-            }
-        }
-
-        private void DoTheRolling(int roll)
-        {
-            _gamePlayers.MoveToRandomPlace(roll);
-            _gameLogger.LogTheRolling(_gamePlayers);
-        }
-
-        private void GrantOrRevokeLiberty(int roll)
-        {
-            var canGiveLiberty = _gamePlayers.CurrentPlayerIsInPenalty && IsOddRoll(roll);
-            if (canGiveLiberty)
-                _gamePlayers.GiveLibertyForCurrentPlayer();
-            else
-                _gamePlayers.NoLibertyForCurrentPlayer();
-
-            var msgToggler = canGiveLiberty ? "" : " not";
-            var msg = _gameLogger.LogGrantOrRevokeLiberty(msgToggler, _gamePlayers);
-            Console.WriteLine(msg);
-        }
-
-        private static bool IsOddRoll(int roll)
-        {
-            return roll % 2 != 0;
+            new RollBehaviour(_gamePlayers, _gameQuestions, _gameLogger).MakeRollAction(roll);
         }
 
         public bool WasCorrectlyAnswered()
@@ -74,7 +38,7 @@ namespace UglyTrivia
             }
             var didPlayerWin = _gamePlayers.DidCurrentPlayerWin();
             _gamePlayers.MoveToNextPlayer();
-            return !didPlayerWin; ;
+            return !didPlayerWin;
         }
 
         private void AnswerCorrectly()

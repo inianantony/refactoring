@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Trivia.Services;
+using UglyTrivia;
 
 namespace Trivia.Models
 {
@@ -22,7 +24,7 @@ namespace Trivia.Models
 
         public int PlayerCount => _gamePlayers.Count;
 
-        public void MoveToRandomPlace(int roll)
+        public void MoveToRandomPlace(Roll roll)
         {
             CurrentPlayer.MoveToPlace(roll);
         }

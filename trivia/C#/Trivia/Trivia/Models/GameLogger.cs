@@ -1,4 +1,5 @@
 ﻿using System;
+using Trivia.Services;
 
 namespace Trivia.Models
 {
@@ -10,10 +11,10 @@ namespace Trivia.Models
             Console.WriteLine("They are player number " + gamePlayers.PlayerCount);
         }
 
-        public void LogIntroToRolling(int roll, GamePlayers gamePlayers)
+        public void LogIntroToRolling(Roll roll, GamePlayers gamePlayers)
         {
             Console.WriteLine(gamePlayers.CurrentPlayerName + " is the current player");
-            Console.WriteLine("They have rolled a " + roll);
+            Console.WriteLine("They have rolled a " + roll.Value);
         }
 
         public void LogQuestionCategory(GameQuestions gameQuestions, GamePlayers gamePlayers)
