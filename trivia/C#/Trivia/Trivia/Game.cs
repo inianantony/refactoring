@@ -32,11 +32,6 @@ namespace UglyTrivia
             return "Rock Question " + index;
         }
 
-        public bool IsPlayable()
-        {
-            return (_gamePlayers.PlayerCount >= 2);
-        }
-
         public bool Add(string playerName, Player player)
         {
             _gamePlayers.AddPlayer(player);
@@ -53,33 +48,37 @@ namespace UglyTrivia
 
             if (_gamePlayers.CurrentPlayerIsInPenalty)
             {
-                if (IsOddRoll(roll))
-                {
-                    _gamePlayers.GiveLibertyForCurrentPlayer();
-                    Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
-                    
-                    _gamePlayers.MoveToRandomPlace(roll);
-                    LogTheRolling();
-
-                    Console.WriteLine("The category is " + CurrentCategory(_gamePlayers.CurrentPlayersPlace));
-                    AskQuestion();
-                }
-                else
-                {
-                    Console.WriteLine(_gamePlayers.CurrentPlayerName + " is not getting out of the penalty box");
-                    _gamePlayers.NoLibertyForCurrentPlayer();
-                }
-
+                GrantOrRevokeLiberty(roll);
             }
-            else
-            {
-                _gamePlayers.MoveToRandomPlace(roll);
-                LogTheRolling();
 
+            var canAskQuestion = !_gamePlayers.CurrentPlayerIsInPenalty || IsOddRoll(roll);
+            if (canAskQuestion)
+            {
+                DoTheRolling(roll);
                 Console.WriteLine("The category is " + CurrentCategory(_gamePlayers.CurrentPlayersPlace));
                 AskQuestion();
             }
+        }
 
+        private void DoTheRolling(int roll)
+        {
+            _gamePlayers.MoveToRandomPlace(roll);
+            LogTheRolling();
+        }
+
+        private void GrantOrRevokeLiberty(int roll)
+        {
+            var canGiveLiberty = _gamePlayers.CurrentPlayerIsInPenalty && IsOddRoll(roll);
+            if (canGiveLiberty)
+            {
+                _gamePlayers.GiveLibertyForCurrentPlayer();
+                Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
+            }
+            else
+            {
+                Console.WriteLine(_gamePlayers.CurrentPlayerName + " is not getting out of the penalty box");
+                _gamePlayers.NoLibertyForCurrentPlayer();
+            }
         }
 
         private static bool IsOddRoll(int roll)
@@ -164,7 +163,7 @@ namespace UglyTrivia
         public bool WrongAnswer()
         {
             WrongAnswerMessage();
-            
+
             _gamePlayers.GivePenaltyToCurrentPlayer();
             LogSettingPenalty();
 
