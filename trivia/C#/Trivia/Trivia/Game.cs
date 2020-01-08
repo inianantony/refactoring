@@ -10,8 +10,6 @@ namespace UglyTrivia
         public int _currentPlayer;
         public List<string> _players => _gamePlayers.Select(a => a.PlayerName).ToList();
 
-        public int[] _places = new int[6];
-
         public int[] _purses = new int[6];
 
         public bool[] _inPenaltyBox = new bool[6];
@@ -33,13 +31,10 @@ namespace UglyTrivia
 
         public void InitPurses() => _purses[PlayerCount] = 0;
 
-        public void InitPlaces() => _places[PlayerCount] = 0;
-
         public void InitPenalty() => _inPenaltyBox[PlayerCount] = false;
 
         public void InitState()
         {
-            InitPlaces();
             InitPurses();
             InitPenalty();
         }
@@ -51,7 +46,7 @@ namespace UglyTrivia
 
         public bool CurrentPlayerIsInPenalty => _inPenaltyBox[_currentPlayer];
 
-        public int CurrentPlayersPlace => _places[_currentPlayer];
+        public int CurrentPlayersPlace => CurrentPlayer.Place;
     }
 
     public class Game
@@ -125,7 +120,7 @@ namespace UglyTrivia
             }
             else
             {
-                _gamePlayers.MoveToRandomPlace(roll); 
+                _gamePlayers.MoveToRandomPlace(roll);
                 LogTheRolling();
 
                 Console.WriteLine("The category is " + CurrentCategory(_gamePlayers.CurrentPlayersPlace));
@@ -136,9 +131,7 @@ namespace UglyTrivia
 
         private void LogTheRolling()
         {
-            Console.WriteLine(_gamePlayers.CurrentPlayerName
-                              + "'s new location is "
-                              + _gamePlayers._places[_gamePlayers._currentPlayer]);
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName}'s new location is {_gamePlayers.CurrentPlayersPlace}");
         }
 
         private void AskQuestion()
