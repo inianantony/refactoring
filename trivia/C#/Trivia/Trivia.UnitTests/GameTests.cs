@@ -33,7 +33,7 @@ namespace Trivia.UnitTests
             _game.Add(new Player("Player 1"));
             Assert.DoesNotThrow(() =>
             {
-                _game.Roll(roll);
+                _game.Roll(new Roll(roll));
             });
         }
 

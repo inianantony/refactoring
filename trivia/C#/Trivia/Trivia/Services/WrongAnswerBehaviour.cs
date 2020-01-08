@@ -6,12 +6,10 @@ namespace Trivia.Services
     public class WrongAnswerBehaviour
     {
         private readonly GamePlayers _gamePlayers;
-        private readonly GameLogger _gameLogger;
 
-        public WrongAnswerBehaviour(GamePlayers gamePlayers, GameLogger gameLogger)
+        public WrongAnswerBehaviour(GamePlayers gamePlayers)
         {
             _gamePlayers = gamePlayers;
-            _gameLogger = gameLogger;
         }
 
         public bool MakeWrongAnswer()
@@ -19,7 +17,7 @@ namespace Trivia.Services
             WrongAnswerMessage();
 
             _gamePlayers.GivePenaltyToCurrentPlayer();
-            _gameLogger.LogSettingPenalty(_gamePlayers);
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} was sent to the penalty box");
 
             _gamePlayers.MoveToNextPlayer();
             return true;

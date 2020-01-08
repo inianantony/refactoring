@@ -21,7 +21,7 @@ namespace Trivia.Scenarios.Steps
         [Given(@"Rolled (.*) during the game play")]
         public void GivenRolledDuringTheGamePlay(int roll)
         {
-            _game.Roll(roll);
+            _game.Roll(new Roll(roll));
         }
 
         [When(@"Rolled (.*) during the game play")]

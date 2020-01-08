@@ -6,12 +6,10 @@ namespace Trivia.Services
     public class CorrectAnswerBehaviour
     {
         private readonly GamePlayers _gamePlayers;
-        private readonly GameLogger _gameLogger;
 
-        public CorrectAnswerBehaviour(GamePlayers gamePlayers, GameLogger gameLogger)
+        public CorrectAnswerBehaviour(GamePlayers gamePlayers)
         {
             _gamePlayers = gamePlayers;
-            _gameLogger = gameLogger;
         }
 
         public bool MakeCorrectAnswer()
@@ -31,7 +29,7 @@ namespace Trivia.Services
         {
             CorrectAnswerMsg();
             _gamePlayers.AddPointToCurrentPlayer();
-            _gameLogger.LogGamePoint(_gamePlayers);
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} now has {_gamePlayers.CurrentPlayerPoints} Gold Coins.");
         }
 
         private static void CorrectAnswerMsg()

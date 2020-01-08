@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Trivia.Services;
-using UglyTrivia;
+﻿using System.Collections.Generic;
 
 namespace Trivia.Models
 {

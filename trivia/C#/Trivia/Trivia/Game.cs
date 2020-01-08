@@ -1,4 +1,5 @@
-﻿using Trivia.Models;
+﻿using System;
+using Trivia.Models;
 using Trivia.Services;
 
 namespace UglyTrivia
@@ -7,35 +8,39 @@ namespace UglyTrivia
     {
         private readonly GamePlayers _gamePlayers;
         private readonly GameQuestions _gameQuestions;
-        private readonly GameLogger _gameLogger;
 
         public Game()
         {
             _gamePlayers = new GamePlayers();
             _gameQuestions = new GameQuestions();
-            _gameLogger = new GameLogger();
         }
 
         public bool Add(Player player)
         {
             _gamePlayers.AddPlayer(player);
-            _gameLogger.LogPlayerAddition(_gamePlayers, player.PlayerName);
+            LogPlayerAddition(player);
             return true;
         }
 
-        public void Roll(int roll)
+        public void LogPlayerAddition(Player player)
         {
-            new RollBehaviour(_gamePlayers, _gameQuestions).MakeRollAction(new Roll(roll));
+            Console.WriteLine(player.PlayerName + " was added");
+            Console.WriteLine("They are player number " + _gamePlayers.PlayerCount);
+        }
+
+        public void Roll(Roll roll)
+        {
+            new RollBehaviour(_gamePlayers, _gameQuestions).MakeRollAction(roll);
         }
 
         public bool WasCorrectlyAnswered()
         {
-            return new CorrectAnswerBehaviour(_gamePlayers, _gameLogger).MakeCorrectAnswer();
+            return new CorrectAnswerBehaviour(_gamePlayers).MakeCorrectAnswer();
         }
 
         public bool WrongAnswer()
         {
-            return new WrongAnswerBehaviour(_gamePlayers, _gameLogger).MakeWrongAnswer();
+            return new WrongAnswerBehaviour(_gamePlayers).MakeWrongAnswer();
         }
     }
 }
