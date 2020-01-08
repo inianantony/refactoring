@@ -51,7 +51,7 @@ namespace Trivia.Services
 
         private void PlayerAnswersQuestion()
         {
-            if (_rand.Next(9) == 7)
+            if (NextRandomNumber(9) == 7)
             {
                 _aGame.AnswerWrongly();
             }
@@ -61,9 +61,14 @@ namespace Trivia.Services
             }
         }
 
+        private int NextRandomNumber(int maxVal)
+        {
+            return _rand.Next(maxVal);
+        }
+
         private void DoRollAction()
         {
-            int roll = _rand.Next(5) + 1;
+            int roll = NextRandomNumber(5) + 1;
             _aGame.Roll(new Roll(roll));
         }
 
