@@ -1,5 +1,4 @@
-﻿using System;
-using Trivia.Models;
+﻿using Trivia.Models;
 using Trivia.Services;
 
 namespace UglyTrivia
@@ -17,56 +16,26 @@ namespace UglyTrivia
             _gameLogger = new GameLogger();
         }
 
-        public bool Add(string playerName, Player player)
+        public bool Add(Player player)
         {
             _gamePlayers.AddPlayer(player);
-            _gameLogger.LogPlayerAddition(_gamePlayers, playerName);
+            _gameLogger.LogPlayerAddition(_gamePlayers, player.PlayerName);
             return true;
         }
 
         public void Roll(int roll)
         {
-            new RollBehaviour(_gamePlayers, _gameQuestions, _gameLogger).MakeRollAction(roll);
+            new RollBehaviour(_gamePlayers, _gameQuestions).MakeRollAction(new Roll(roll));
         }
 
         public bool WasCorrectlyAnswered()
         {
-            var playerCanAnswer = _gamePlayers.CanPlayerAnswer();
-            if (playerCanAnswer)
-            {
-                AnswerCorrectly();
-            }
-            var didPlayerWin = _gamePlayers.DidCurrentPlayerWin();
-            _gamePlayers.MoveToNextPlayer();
-            return !didPlayerWin;
-        }
-
-        private void AnswerCorrectly()
-        {
-            CorrectAnswerMsg();
-            _gamePlayers.AddPointToCurrentPlayer();
-            _gameLogger.LogGamePoint(_gamePlayers);
-        }
-
-        private static void CorrectAnswerMsg()
-        {
-            Console.WriteLine("Answer was correct!!!!");
+            return new CorrectAnswerBehaviour(_gamePlayers, _gameLogger).MakeCorrectAnswer();
         }
 
         public bool WrongAnswer()
         {
-            WrongAnswerMessage();
-
-            _gamePlayers.GivePenaltyToCurrentPlayer();
-            _gameLogger.LogSettingPenalty(_gamePlayers);
-
-            _gamePlayers.MoveToNextPlayer();
-            return true;
-        }
-
-        private static void WrongAnswerMessage()
-        {
-            Console.WriteLine("Question was incorrectly answered");
+            return new WrongAnswerBehaviour(_gamePlayers, _gameLogger).MakeWrongAnswer();
         }
     }
 }

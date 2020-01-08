@@ -7,35 +7,69 @@ namespace Trivia.Services
     {
         private readonly GamePlayers _gamePlayers;
         private readonly GameQuestions _gameQuestions;
-        private readonly GameLogger _gameLogger;
 
-        public RollBehaviour(GamePlayers gamePlayers, GameQuestions gameQuestions, GameLogger gameLogger)
+        public RollBehaviour(GamePlayers gamePlayers, GameQuestions gameQuestions)
         {
             _gamePlayers = gamePlayers;
             _gameQuestions = gameQuestions;
-            _gameLogger = gameLogger;
         }
 
-        public void MakeRollAction(int roll1)
+        public void MakeRollAction(Roll roll)
         {
-            var roll = new Roll(roll1);
-            _gameLogger.LogIntroToRolling(roll, _gamePlayers);
+            LogCurrentPlayer();
 
-            if (_gamePlayers.CurrentPlayerIsInPenalty)
-            {
-                GrantOrRevokeLiberty(roll);
-            }
+            LogRollValue(roll);
+
+            ProcessLibertyAction(roll);
 
             if (CanAskQuestion(roll))
             {
                 DoTheRolling(roll);
-                AskingTheQuestion();
+                AskTheQuestion();
             }
         }
 
-        private void AskingTheQuestion()
+        private void ProcessLibertyAction(Roll roll)
         {
-            _gameLogger.LogQuestionCategory(_gameQuestions, _gamePlayers);
+            if (_gamePlayers.CurrentPlayerIsInPenalty)
+            {
+                GrantOrRevokeLiberty(roll);
+                LogLibertyMessage(roll);
+            }
+        }
+
+        private static void LogRollValue(Roll roll)
+        {
+            Console.WriteLine("They have rolled a " + roll.Value);
+        }
+
+        private void LogCurrentPlayer()
+        {
+            Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
+        }
+
+        private void GrantOrRevokeLiberty(Roll roll)
+        {
+            if (CanGiveLiberty(roll))
+                _gamePlayers.GiveLibertyForCurrentPlayer();
+            else
+                _gamePlayers.NoLibertyForCurrentPlayer();
+        }
+
+        private bool CanGiveLiberty(Roll roll)
+        {
+            return _gamePlayers.CurrentPlayerIsInPenalty && roll.IsOddRoll();
+        }
+
+        private void LogLibertyMessage(Roll roll)
+        {
+            bool canGiveLiberty = CanGiveLiberty(roll);
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} is{(canGiveLiberty ? "" : " not")} getting out of the penalty box");
+        }
+
+        private void AskTheQuestion()
+        {
+            Console.WriteLine("The category is " + _gameQuestions.CurrentCategory(_gamePlayers.CurrentPlayersPlace));
             _gameQuestions.AskQuestion(_gamePlayers.CurrentPlayersPlace);
         }
 
@@ -47,20 +81,7 @@ namespace Trivia.Services
         private void DoTheRolling(Roll roll)
         {
             _gamePlayers.MoveToRandomPlace(roll);
-            _gameLogger.LogTheRolling(_gamePlayers);
-        }
-
-        private void GrantOrRevokeLiberty(Roll roll)
-        {
-            var canGiveLiberty = _gamePlayers.CurrentPlayerIsInPenalty && roll.IsOddRoll();
-            if (canGiveLiberty)
-                _gamePlayers.GiveLibertyForCurrentPlayer();
-            else
-                _gamePlayers.NoLibertyForCurrentPlayer();
-
-            var msgToggler = canGiveLiberty ? "" : " not";
-            var msg = _gameLogger.LogGrantOrRevokeLiberty(msgToggler, _gamePlayers);
-            Console.WriteLine(msg);
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName}'s new location is {_gamePlayers.CurrentPlayersPlace}");
         }
     }
 }
