@@ -31,11 +31,10 @@ namespace Trivia.Services
 
         private void ProcessLibertyAction(Roll roll)
         {
-            if (_gamePlayers.CurrentPlayerIsInPenalty)
-            {
-                GrantOrRevokeLiberty(roll);
-                LogLibertyMessage(roll);
-            }
+            if (!_gamePlayers.CurrentPlayerIsInPenalty) return;
+
+            GrantOrRevokeLiberty(roll);
+            LogLibertyMessage(roll);
         }
 
         private static void LogRollValue(Roll roll)
