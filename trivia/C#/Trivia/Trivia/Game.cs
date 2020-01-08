@@ -17,16 +17,19 @@ namespace UglyTrivia
         public bool Add(string playerName, Player player)
         {
             _gamePlayers.AddPlayer(player);
+            LogPlayerAddition(playerName);
+            return true;
+        }
 
+        private void LogPlayerAddition(string playerName)
+        {
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + _gamePlayers.PlayerCount);
-            return true;
         }
 
         public void Roll(int roll)
         {
-            Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
-            Console.WriteLine("They have rolled a " + roll);
+            LogIntroToRolling(roll);
 
             if (_gamePlayers.CurrentPlayerIsInPenalty)
             {
@@ -42,6 +45,12 @@ namespace UglyTrivia
             }
         }
 
+        private void LogIntroToRolling(int roll)
+        {
+            Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
+            Console.WriteLine("They have rolled a " + roll);
+        }
+
         private void DoTheRolling(int roll)
         {
             _gamePlayers.MoveToRandomPlace(roll);
@@ -52,15 +61,13 @@ namespace UglyTrivia
         {
             var canGiveLiberty = _gamePlayers.CurrentPlayerIsInPenalty && IsOddRoll(roll);
             if (canGiveLiberty)
-            {
                 _gamePlayers.GiveLibertyForCurrentPlayer();
-                Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
-            }
             else
-            {
-                Console.WriteLine(_gamePlayers.CurrentPlayerName + " is not getting out of the penalty box");
                 _gamePlayers.NoLibertyForCurrentPlayer();
-            }
+
+            var msgToggler = canGiveLiberty ? "" : " not";
+            var msg = $"{_gamePlayers.CurrentPlayerName} is{msgToggler} getting out of the penalty box";
+            Console.WriteLine(msg);
         }
 
         private static bool IsOddRoll(int roll)
