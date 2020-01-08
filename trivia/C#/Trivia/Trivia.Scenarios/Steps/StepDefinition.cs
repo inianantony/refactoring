@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using TechTalk.SpecFlow;
+using Trivia.Models;
 using UglyTrivia;
 
 namespace Trivia.Scenarios.Steps

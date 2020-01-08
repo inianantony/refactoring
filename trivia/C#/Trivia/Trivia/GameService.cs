@@ -1,4 +1,5 @@
 ﻿using System;
+using Trivia.Models;
 using UglyTrivia;
 
 namespace Trivia
