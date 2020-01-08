@@ -12,17 +12,13 @@ namespace Trivia.Services
             _gamePlayers = gamePlayers;
         }
 
-        public bool MakeCorrectAnswer()
+        public void MakeCorrectAnswer()
         {
             var playerCanAnswer = _gamePlayers.CanPlayerAnswer();
             if (playerCanAnswer)
             {
                 AnswerCorrectly();
             }
-
-            var didPlayerWin = _gamePlayers.DidCurrentPlayerWin();
-            _gamePlayers.MoveToNextPlayer();
-            return !didPlayerWin;
         }
 
         private void AnswerCorrectly()

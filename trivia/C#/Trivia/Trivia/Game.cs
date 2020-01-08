@@ -33,14 +33,25 @@ namespace UglyTrivia
             new RollBehaviour(_gamePlayers, _gameQuestions).MakeRollAction(roll);
         }
 
-        public bool WasCorrectlyAnswered()
+        public void AnswerCorrectly()
         {
-            return new CorrectAnswerBehaviour(_gamePlayers).MakeCorrectAnswer();
+            new CorrectAnswerBehaviour(_gamePlayers).MakeCorrectAnswer();
         }
 
-        public bool WrongAnswer()
+        public void MoveToNextPlayer()
         {
-            return new WrongAnswerBehaviour(_gamePlayers).MakeWrongAnswer();
+            _gamePlayers.MoveToNextPlayer();
+        }
+
+        public bool HasCurrentPlayerWon()
+        {
+            var didPlayerWin = _gamePlayers.DidCurrentPlayerWin();
+            return didPlayerWin;
+        }
+
+        public void AnswerWrongly()
+        {
+            new WrongAnswerBehaviour(_gamePlayers).MakeWrongAnswer();
         }
     }
 }

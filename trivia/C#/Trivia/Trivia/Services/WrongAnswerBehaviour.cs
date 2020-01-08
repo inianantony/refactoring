@@ -12,20 +12,17 @@ namespace Trivia.Services
             _gamePlayers = gamePlayers;
         }
 
-        public bool MakeWrongAnswer()
+        private void WrongAnswerMessage()
+        {
+            Console.WriteLine("Question was incorrectly answered");
+        }
+
+        public void MakeWrongAnswer()
         {
             WrongAnswerMessage();
 
             _gamePlayers.GivePenaltyToCurrentPlayer();
             Console.WriteLine($"{_gamePlayers.CurrentPlayerName} was sent to the penalty box");
-
-            _gamePlayers.MoveToNextPlayer();
-            return true;
-        }
-
-        private static void WrongAnswerMessage()
-        {
-            Console.WriteLine("Question was incorrectly answered");
         }
     }
 }

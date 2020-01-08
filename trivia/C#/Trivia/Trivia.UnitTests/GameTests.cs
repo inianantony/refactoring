@@ -42,7 +42,10 @@ namespace Trivia.UnitTests
         {
             _game.Add(new Player("Player 1"));
 
-            var actual = _game.WrongAnswer();
+            _game.AnswerWrongly();
+            var didPlayerWin = _game.HasCurrentPlayerWon();
+            _game.MoveToNextPlayer();
+            var actual = !didPlayerWin;
             Assert.AreEqual(true, actual);
         }
 
@@ -51,7 +54,10 @@ namespace Trivia.UnitTests
         {
             _game.Add(new Player("Player 1"));
 
-            var actual = _game.WasCorrectlyAnswered();
+            _game.AnswerCorrectly();
+            var didPlayerWin = _game.HasCurrentPlayerWon();
+            _game.MoveToNextPlayer();
+            var actual = !didPlayerWin;
             Assert.AreEqual(true, actual);
         }
 
@@ -62,9 +68,18 @@ namespace Trivia.UnitTests
 
             //Make 5 calls
             for (var i = 1; i <= 5; i++)
-                _game.WasCorrectlyAnswered();
+            {
+                _game.AnswerCorrectly();
+                var didPlayerWin = _game.HasCurrentPlayerWon();
+                _game.MoveToNextPlayer();
+                bool temp = !didPlayerWin;
+            }
+
             //Make 6th call
-            bool actual = _game.WasCorrectlyAnswered();
+            _game.AnswerCorrectly();
+            var didPlayerWin1 = _game.HasCurrentPlayerWon();
+            _game.MoveToNextPlayer();
+            bool actual = !didPlayerWin1;
 
             Assert.AreEqual(false, actual);
         }
@@ -76,9 +91,18 @@ namespace Trivia.UnitTests
 
             //Make 5 calls
             for (var i = 1; i <= 6; i++)
-                _game.WasCorrectlyAnswered();
+            {
+                _game.AnswerCorrectly();
+                var didPlayerWin = _game.HasCurrentPlayerWon();
+                _game.MoveToNextPlayer();
+                bool temp = !didPlayerWin;
+            }
+
             //Make 6th call
-            bool actual = _game.WasCorrectlyAnswered();
+            _game.AnswerCorrectly();
+            var didPlayerWin1 = _game.HasCurrentPlayerWon();
+            _game.MoveToNextPlayer();
+            bool actual = !didPlayerWin1;
 
             Assert.AreEqual(true, actual);
         }

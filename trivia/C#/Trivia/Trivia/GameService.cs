@@ -6,32 +6,65 @@ namespace Trivia
 {
     public class GameService
     {
-        private bool _notAWinner;
+        private bool _hasPlayerWon;
+        private readonly Game _aGame;
+        private readonly Random _rand;
+        public GameService()
+        {
+            _aGame = new Game();
+            _rand = new Random();
 
+        }
         public void BeginGame()
         {
-            Game aGame = new Game();
-
-            aGame.Add(new Player("Chet"));
-            aGame.Add(new Player("Pat"));
-            aGame.Add(new Player("Sue"));
-
-            Random rand = new Random();
+            AddGamePlayers();
 
             do
             {
-                int roll = rand.Next(5) + 1;
-                aGame.Roll(new Roll(roll));
+                DoRollAction();
 
-                if (rand.Next(9) == 7)
-                {
-                    _notAWinner = aGame.WrongAnswer();
-                }
-                else
-                {
-                    _notAWinner = aGame.WasCorrectlyAnswered();
-                }
-            } while (_notAWinner);
+                PlayerAnswersQuestion();
+
+                DidPlayerWin();
+
+                MoveToNextPlayer();
+
+            } while (!_hasPlayerWon);
+        }
+
+        private void MoveToNextPlayer()
+        {
+            _aGame.MoveToNextPlayer();
+        }
+
+        private void DidPlayerWin()
+        {
+            _hasPlayerWon = _aGame.HasCurrentPlayerWon();
+        }
+
+        private void PlayerAnswersQuestion()
+        {
+            if (_rand.Next(9) == 7)
+            {
+                _aGame.AnswerWrongly();
+            }
+            else
+            {
+                _aGame.AnswerCorrectly();
+            }
+        }
+
+        private void DoRollAction()
+        {
+            int roll = _rand.Next(5) + 1;
+            _aGame.Roll(new Roll(roll));
+        }
+
+        private void AddGamePlayers()
+        {
+            _aGame.Add(new Player("Chet"));
+            _aGame.Add(new Player("Pat"));
+            _aGame.Add(new Player("Sue"));
         }
     }
 }
