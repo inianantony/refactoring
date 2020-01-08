@@ -26,33 +26,32 @@ namespace UglyTrivia
             _gamePlayers.Add(player);
         }
 
-        public string CurrentPlayerName => _gamePlayers[_currentPlayer].PlayerName;
+        public string CurrentPlayerName => CurrentPlayer.PlayerName;
+        public Player CurrentPlayer => _gamePlayers[_currentPlayer];
 
         public int PlayerCount => _players.Count;
 
-        public void InitPurses() => this._purses[this.PlayerCount] = 0;
+        public void InitPurses() => _purses[PlayerCount] = 0;
 
-        public void InitPlaces() => this._places[this.PlayerCount] = 0;
+        public void InitPlaces() => _places[PlayerCount] = 0;
 
-        public void InitPenalty() => this._inPenaltyBox[this.PlayerCount] = false;
+        public void InitPenalty() => _inPenaltyBox[PlayerCount] = false;
 
         public void InitState()
         {
-            this.InitPlaces();
-            this.InitPurses();
-            this.InitPenalty();
+            InitPlaces();
+            InitPurses();
+            InitPenalty();
         }
 
         public void MoveToRandomPlace(int roll)
         {
-            this._places[this._currentPlayer] = this._places[this._currentPlayer] + roll;
-            if (this._places[this._currentPlayer] > 11)
-                this._places[this._currentPlayer] = this._places[this._currentPlayer] - 12;
+            CurrentPlayer.MoveToPlace(roll);
         }
 
-        public bool CurrentPlayerIsInPenalty => this._inPenaltyBox[this._currentPlayer];
+        public bool CurrentPlayerIsInPenalty => _inPenaltyBox[_currentPlayer];
 
-        public int CurrentPlayersPlace => this._places[this._currentPlayer];
+        public int CurrentPlayersPlace => _places[_currentPlayer];
     }
 
     public class Game
@@ -201,17 +200,15 @@ namespace UglyTrivia
 
                     return winner;
                 }
-                else
-                {
-                    _gamePlayers._currentPlayer++;
-                    if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
-                    return true;
-                }
+
+                _gamePlayers._currentPlayer++;
+                if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
+                return true;
 
 
 
             }
-            else
+
             {
 
                 Console.WriteLine("Answer was corrent!!!!");
@@ -250,10 +247,18 @@ namespace UglyTrivia
     public class Player
     {
         public string PlayerName { get; }
+        public int Place { get; private set; }
 
         public Player(string playerName)
         {
             PlayerName = playerName;
+        }
+
+        public void MoveToPlace(int roll)
+        {
+            Place += roll;
+            if (Place > 11)
+                Place -= 12;
         }
     }
 }
