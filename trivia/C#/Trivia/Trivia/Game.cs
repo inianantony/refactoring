@@ -5,7 +5,7 @@ namespace UglyTrivia
 {
     public class Game
     {
-        public readonly GamePlayers _gamePlayers;
+        private readonly GamePlayers _gamePlayers;
         private readonly GameQuestions _gameQuestions;
 
         public Game()
