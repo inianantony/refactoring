@@ -47,6 +47,23 @@ namespace UglyTrivia
         public bool CurrentPlayerIsInPenalty => _inPenaltyBox[_currentPlayer];
 
         public int CurrentPlayersPlace => CurrentPlayer.Place;
+
+        public void MoveToNextPlayer()
+        {
+            this._currentPlayer++;
+            if (this._currentPlayer == this.PlayerCount) this._currentPlayer = 0;
+
+        }
+
+        public void AddPoint()
+        {
+            this._purses[this._currentPlayer]++;
+        }
+
+        public bool DidPlayerWin()
+        {
+            return this._purses[this._currentPlayer] == 6;
+        }
     }
 
     public class Game
@@ -180,43 +197,42 @@ namespace UglyTrivia
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
-                    Console.WriteLine("Answer was correct!!!!");
-                    _gamePlayers._purses[_gamePlayers._currentPlayer]++;
-                    Console.WriteLine(_gamePlayers.CurrentPlayerName
-                                      + " now has "
-                                      + _gamePlayers._purses[_gamePlayers._currentPlayer]
-                                      + " Gold Coins.");
+                    CorrectAnswerMsg();
+                    _gamePlayers.AddPoint();
+                    LogGamePoint();
 
-                    bool winner = DidPlayerWin();
-                    _gamePlayers._currentPlayer++;
-                    if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
+                    bool winner = !_gamePlayers.DidPlayerWin();
+                    _gamePlayers.MoveToNextPlayer();
 
                     return winner;
                 }
 
-                _gamePlayers._currentPlayer++;
-                if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
+                _gamePlayers.MoveToNextPlayer();
                 return true;
-
-
-
             }
 
             {
 
-                Console.WriteLine("Answer was corrent!!!!");
-                _gamePlayers._purses[_gamePlayers._currentPlayer]++;
-                Console.WriteLine(_gamePlayers.CurrentPlayerName
-                                  + " now has "
-                                  + _gamePlayers._purses[_gamePlayers._currentPlayer]
-                                  + " Gold Coins.");
+                CorrectAnswerMsg();
+                _gamePlayers.AddPoint();
+                LogGamePoint();
 
-                bool winner = DidPlayerWin();
-                _gamePlayers._currentPlayer++;
-                if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
+                bool winner = !_gamePlayers.DidPlayerWin();
+                _gamePlayers.MoveToNextPlayer();
 
                 return winner;
             }
+        }
+
+        private static void CorrectAnswerMsg()
+        {
+            Console.WriteLine("Answer was correct!!!!");
+        }
+
+        private void LogGamePoint()
+        {
+            Console.WriteLine(_gamePlayers.CurrentPlayerName + " now has " + _gamePlayers._purses[_gamePlayers._currentPlayer] +
+                              " Gold Coins.");
         }
 
         public bool WrongAnswer()
@@ -228,12 +244,6 @@ namespace UglyTrivia
             _gamePlayers._currentPlayer++;
             if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
             return true;
-        }
-
-
-        private bool DidPlayerWin()
-        {
-            return !(_gamePlayers._purses[_gamePlayers._currentPlayer] == 6);
         }
     }
 
