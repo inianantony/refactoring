@@ -1,8 +1,7 @@
 ﻿using System;
 using Trivia.Models;
-using Trivia.Services;
 
-namespace Trivia
+namespace Trivia.Services
 {
     public class Game
     {

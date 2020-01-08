@@ -65,11 +65,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
+    <Compile Include="Services\Game.cs" />
     <Compile Include="Models\GameQuestions.cs" />
     <Compile Include="Models\GamePlayers.cs" />
     <Compile Include="GameRunner.cs" />
-    <Compile Include="GameService.cs" />
+    <Compile Include="Services\GameService.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Roll.cs" />

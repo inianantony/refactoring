@@ -1,8 +1,7 @@
 ﻿using System;
 using Trivia.Models;
-using Trivia;
 
-namespace Trivia
+namespace Trivia.Services
 {
     public class GameService
     {
@@ -21,6 +20,8 @@ namespace Trivia
 
             do
             {
+                AddLineSeperator();
+
                 DoRollAction();
 
                 PlayerAnswersQuestion();
@@ -28,8 +29,14 @@ namespace Trivia
                 DidPlayerWin();
 
                 MoveToNextPlayer();
-
             } while (!_hasPlayerWon);
+        }
+
+        private void AddLineSeperator()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("");
         }
 
         private void MoveToNextPlayer()
