@@ -6,6 +6,7 @@ namespace UglyTrivia
     {
         private readonly List<Player> _gamePlayers = new List<Player>();
         private int _currentPlayerIndex;
+        public bool _isGettingOutOfPenaltyBox;
 
         public GamePlayers()
         {
@@ -52,6 +53,11 @@ namespace UglyTrivia
         public void GivePenaltyToCurrentPlayer()
         {
             CurrentPlayer.SetPenalty();
+        }
+
+        public bool CanPlayerAnswer()
+        {
+            return !_gamePlayers.CurrentPlayerIsInPenalty || _gamePlayers._isGettingOutOfPenaltyBox;
         }
     }
 }

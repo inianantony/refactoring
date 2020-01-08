@@ -12,7 +12,6 @@ namespace UglyTrivia
         readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
 
-        bool _isGettingOutOfPenaltyBox;
         private readonly GamePlayers _gamePlayers;
 
         public Game()
@@ -56,7 +55,7 @@ namespace UglyTrivia
             {
                 if (roll % 2 != 0)
                 {
-                    _isGettingOutOfPenaltyBox = true;
+                    _gamePlayers._isGettingOutOfPenaltyBox = true;
 
                     Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
                     _gamePlayers.MoveToRandomPlace(roll);
@@ -68,7 +67,7 @@ namespace UglyTrivia
                 else
                 {
                     Console.WriteLine(_gamePlayers.CurrentPlayerName + " is not getting out of the penalty box");
-                    _isGettingOutOfPenaltyBox = false;
+                    _gamePlayers._isGettingOutOfPenaltyBox = false;
                 }
 
             }
@@ -130,32 +129,14 @@ namespace UglyTrivia
 
         public bool WasCorrectlyAnswered()
         {
-            if (_gamePlayers.CurrentPlayerIsInPenalty)
+            var playerCanAnswer = _gamePlayers.CanPlayerAnswer();
+            if (playerCanAnswer)
             {
-                if (_isGettingOutOfPenaltyBox)
-                {
-                    AnswerCorrectly();
-
-                    bool winner = !_gamePlayers.DidCurrentPlayerWin();
-
-                    _gamePlayers.MoveToNextPlayer();
-
-                    return winner;
-                }
-
-                _gamePlayers.MoveToNextPlayer();
-                return true;
-            }
-
-            {
-
                 AnswerCorrectly();
-
-                bool winner = !_gamePlayers.DidCurrentPlayerWin();
-                _gamePlayers.MoveToNextPlayer();
-
-                return winner;
             }
+            var didPlayerWin = _gamePlayers.DidCurrentPlayerWin();
+            _gamePlayers.MoveToNextPlayer();
+            return !didPlayerWin; ;
         }
 
         private void AnswerCorrectly()
@@ -172,14 +153,13 @@ namespace UglyTrivia
 
         private void LogGamePoint()
         {
-            Console.WriteLine(_gamePlayers.CurrentPlayerName + " now has " + _gamePlayers.CurrentPlayerPoints +
-                              " Gold Coins.");
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} now has {_gamePlayers.CurrentPlayerPoints} Gold Coins.");
         }
 
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(_gamePlayers.CurrentPlayerName + " was sent to the penalty box");
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} was sent to the penalty box");
             _gamePlayers.GivePenaltyToCurrentPlayer();
 
             _gamePlayers.MoveToNextPlayer();
