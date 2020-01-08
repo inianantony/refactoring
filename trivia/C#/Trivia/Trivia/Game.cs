@@ -50,19 +50,24 @@ namespace UglyTrivia
 
         public void MoveToNextPlayer()
         {
-            this._currentPlayer++;
-            if (this._currentPlayer == this.PlayerCount) this._currentPlayer = 0;
+            _currentPlayer++;
+            if (_currentPlayer == PlayerCount) _currentPlayer = 0;
 
         }
 
         public void AddPoint()
         {
-            this._purses[this._currentPlayer]++;
+            _purses[_currentPlayer]++;
         }
 
         public bool DidPlayerWin()
         {
-            return this._purses[this._currentPlayer] == 6;
+            return _purses[_currentPlayer] == 6;
+        }
+
+        public void GivePenaltyToPlayer()
+        {
+            _inPenaltyBox[_currentPlayer] = true;
         }
     }
 
@@ -197,11 +202,10 @@ namespace UglyTrivia
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
-                    CorrectAnswerMsg();
-                    _gamePlayers.AddPoint();
-                    LogGamePoint();
+                    AnswerCorrectly();
 
                     bool winner = !_gamePlayers.DidPlayerWin();
+                    
                     _gamePlayers.MoveToNextPlayer();
 
                     return winner;
@@ -213,15 +217,20 @@ namespace UglyTrivia
 
             {
 
-                CorrectAnswerMsg();
-                _gamePlayers.AddPoint();
-                LogGamePoint();
+                AnswerCorrectly();
 
                 bool winner = !_gamePlayers.DidPlayerWin();
                 _gamePlayers.MoveToNextPlayer();
 
                 return winner;
             }
+        }
+
+        private void AnswerCorrectly()
+        {
+            CorrectAnswerMsg();
+            _gamePlayers.AddPoint();
+            LogGamePoint();
         }
 
         private static void CorrectAnswerMsg()
@@ -239,10 +248,9 @@ namespace UglyTrivia
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(_gamePlayers.CurrentPlayerName + " was sent to the penalty box");
-            _gamePlayers._inPenaltyBox[_gamePlayers._currentPlayer] = true;
+            _gamePlayers.GivePenaltyToPlayer();
 
-            _gamePlayers._currentPlayer++;
-            if (_gamePlayers._currentPlayer == _gamePlayers.PlayerCount) _gamePlayers._currentPlayer = 0;
+            _gamePlayers.MoveToNextPlayer();
             return true;
         }
     }
