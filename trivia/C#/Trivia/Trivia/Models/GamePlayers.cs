@@ -12,31 +12,33 @@ namespace Trivia.Models
             _currentPlayerIndex = 0;
         }
 
-        public void AddPlayer(Player player)
-        {
-            _gamePlayers.Add(player);
-        }
-
         public string CurrentPlayerName => CurrentPlayer.PlayerName;
+
         public Player CurrentPlayer => _gamePlayers[_currentPlayerIndex];
 
         public int PlayerCount => _gamePlayers.Count;
 
-        public void MoveToRandomPlace(Roll roll)
-        {
-            CurrentPlayer.MoveToPlace(roll);
-        }
-
         public bool CurrentPlayerIsInPenalty => CurrentPlayer.Penalty;
 
         public int CurrentPlayersPlace => CurrentPlayer.Place;
+
         public int CurrentPlayerPoints => CurrentPlayer.Point;
+
+        public void AddPlayer(Player player)
+        {
+            _gamePlayers.Add(player);
+        }
 
         public void MoveToNextPlayer()
         {
             _currentPlayerIndex++;
             if (_currentPlayerIndex == PlayerCount) _currentPlayerIndex = 0;
 
+        }
+
+        public void MoveToRandomPlace(Roll roll)
+        {
+            CurrentPlayer.MoveToPlace(roll);
         }
 
         public void AddPointToCurrentPlayer()

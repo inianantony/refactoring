@@ -20,41 +20,47 @@ namespace Trivia.Models
         {
             for (int i = 0; i < 50; i++)
             {
-                _popQuestions.AddLast("Pop Question " + i);
-                _scienceQuestions.AddLast(("Science Question " + i));
-                _sportsQuestions.AddLast(("Sports Question " + i));
-                _rockQuestions.AddLast(CreateRockQuestion(i));
+                _popQuestions.AddLast(FormatQuestion("Pop", i));
+                _scienceQuestions.AddLast(FormatQuestion("Science", i));
+                _sportsQuestions.AddLast(FormatQuestion("Sports", i));
+                _rockQuestions.AddLast(FormatQuestion("Rock", i));
             }
         }
 
-        public string CreateRockQuestion(int index)
+        private static string FormatQuestion(string type, int i)
         {
-            return "Rock Question " + index;
+            return type + " Question " + i;
         }
 
         public void AskQuestion(int place)
         {
             var currentCategory = CurrentCategory(place);
-            if (currentCategory == "Pop")
+            var questionList = GetQuestionList(currentCategory);
+
+            Console.WriteLine(questionList.First());
+            questionList.RemoveFirst();
+        }
+
+        private LinkedList<string> GetQuestionList(string currentCategory)
+        {
+            LinkedList<string> section = _rockQuestions;
+            switch (currentCategory)
             {
-                Console.WriteLine(_popQuestions.First());
-                _popQuestions.RemoveFirst();
+                case "Pop":
+                    section = _popQuestions;
+                    break;
+                case "Science":
+                    section = _scienceQuestions;
+                    break;
+                case "Sports":
+                    section = _sportsQuestions;
+                    break;
+                case "Rock":
+                    section = _rockQuestions;
+                    break;
             }
-            if (currentCategory == "Science")
-            {
-                Console.WriteLine(_scienceQuestions.First());
-                _scienceQuestions.RemoveFirst();
-            }
-            if (currentCategory == "Sports")
-            {
-                Console.WriteLine(_sportsQuestions.First());
-                _sportsQuestions.RemoveFirst();
-            }
-            if (currentCategory == "Rock")
-            {
-                Console.WriteLine(_rockQuestions.First());
-                _rockQuestions.RemoveFirst();
-            }
+
+            return section;
         }
 
         public string CurrentCategory(int place)
