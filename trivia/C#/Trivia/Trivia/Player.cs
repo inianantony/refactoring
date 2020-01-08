@@ -10,6 +10,7 @@
             PlayerName = playerName;
             Point = 0;
             Penalty = false;
+            Liberty = false;
         }
 
         public bool IsWinner => Point == 6;
@@ -33,5 +34,16 @@
 
         public bool Penalty { get; private set; }
         public int Point { get; private set; }
+        public bool Liberty { get; private set; }
+
+        public void RevokeLiberty()
+        {
+            Liberty = false;
+        }
+
+        public void GiveLiberty()
+        {
+            Liberty = true;
+        }
     }
 }

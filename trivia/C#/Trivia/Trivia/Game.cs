@@ -53,11 +53,11 @@ namespace UglyTrivia
 
             if (_gamePlayers.CurrentPlayerIsInPenalty)
             {
-                if (roll % 2 != 0)
+                if (IsOddRoll(roll))
                 {
-                    _gamePlayers._isGettingOutOfPenaltyBox = true;
-
+                    _gamePlayers.GiveLibertyForCurrentPlayer();
                     Console.WriteLine(_gamePlayers.CurrentPlayerName + " is getting out of the penalty box");
+                    
                     _gamePlayers.MoveToRandomPlace(roll);
                     LogTheRolling();
 
@@ -67,7 +67,7 @@ namespace UglyTrivia
                 else
                 {
                     Console.WriteLine(_gamePlayers.CurrentPlayerName + " is not getting out of the penalty box");
-                    _gamePlayers._isGettingOutOfPenaltyBox = false;
+                    _gamePlayers.NoLibertyForCurrentPlayer();
                 }
 
             }
@@ -80,6 +80,11 @@ namespace UglyTrivia
                 AskQuestion();
             }
 
+        }
+
+        private static bool IsOddRoll(int roll)
+        {
+            return roll % 2 != 0;
         }
 
         private void LogTheRolling()
@@ -158,12 +163,23 @@ namespace UglyTrivia
 
         public bool WrongAnswer()
         {
-            Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} was sent to the penalty box");
+            WrongAnswerMessage();
+            
             _gamePlayers.GivePenaltyToCurrentPlayer();
+            LogSettingPenalty();
 
             _gamePlayers.MoveToNextPlayer();
             return true;
+        }
+
+        private void LogSettingPenalty()
+        {
+            Console.WriteLine($"{_gamePlayers.CurrentPlayerName} was sent to the penalty box");
+        }
+
+        private static void WrongAnswerMessage()
+        {
+            Console.WriteLine("Question was incorrectly answered");
         }
     }
 }
