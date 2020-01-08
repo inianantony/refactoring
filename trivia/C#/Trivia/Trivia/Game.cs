@@ -2,7 +2,7 @@
 using Trivia.Models;
 using Trivia.Services;
 
-namespace UglyTrivia
+namespace Trivia
 {
     public class Game
     {
@@ -45,8 +45,7 @@ namespace UglyTrivia
 
         public bool HasCurrentPlayerWon()
         {
-            var didPlayerWin = _gamePlayers.DidCurrentPlayerWin();
-            return didPlayerWin;
+            return _gamePlayers.DidCurrentPlayerWin();
         }
 
         public void AnswerWrongly()

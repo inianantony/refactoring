@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Trivia.Models;
-using UglyTrivia;
+using Trivia;
 
 namespace Trivia.UnitTests
 {

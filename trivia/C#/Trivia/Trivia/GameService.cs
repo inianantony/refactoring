@@ -1,6 +1,6 @@
 ﻿using System;
 using Trivia.Models;
-using UglyTrivia;
+using Trivia;
 
 namespace Trivia
 {

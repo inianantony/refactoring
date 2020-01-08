@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using TechTalk.SpecFlow;
 using Trivia.Models;
-using UglyTrivia;
+using Trivia;
 
 namespace Trivia.Scenarios.Steps
 {
