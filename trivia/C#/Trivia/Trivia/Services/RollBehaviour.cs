@@ -69,8 +69,13 @@ namespace Trivia.Services
 
         private void AskTheQuestion()
         {
-            Console.WriteLine("The category is " + _gameQuestions.CurrentCategory(_gamePlayers.CurrentPlayersPlace));
+            LogQuestionCategory();
             _gameQuestions.AskQuestion(_gamePlayers.CurrentPlayersPlace);
+        }
+
+        private void LogQuestionCategory()
+        {
+            Console.WriteLine("The category is " + _gameQuestions.CurrentCategory(_gamePlayers.CurrentPlayersPlace));
         }
 
         private bool CanAskQuestion(Roll roll)
@@ -81,6 +86,11 @@ namespace Trivia.Services
         private void DoTheRolling(Roll roll)
         {
             _gamePlayers.MoveToRandomPlace(roll);
+            LogRollLocation();
+        }
+
+        private void LogRollLocation()
+        {
             Console.WriteLine($"{_gamePlayers.CurrentPlayerName}'s new location is {_gamePlayers.CurrentPlayersPlace}");
         }
     }
