@@ -4,73 +4,6 @@ using System.Linq;
 
 namespace UglyTrivia
 {
-    public class GamePlayers
-    {
-        public readonly List<Player> _gamePlayers = new List<Player>();
-        public int _currentPlayer;
-        public List<string> _players => _gamePlayers.Select(a => a.PlayerName).ToList();
-
-        public int[] _purses = new int[6];
-
-        public bool[] _inPenaltyBox = new bool[6];
-
-        public GamePlayers()
-        {
-            _currentPlayer = 0;
-        }
-
-        public void AddPlayer(Player player)
-        {
-            _gamePlayers.Add(player);
-        }
-
-        public string CurrentPlayerName => CurrentPlayer.PlayerName;
-        public Player CurrentPlayer => _gamePlayers[_currentPlayer];
-
-        public int PlayerCount => _players.Count;
-
-        public void InitPurses() => _purses[PlayerCount] = 0;
-
-        public void InitPenalty() => _inPenaltyBox[PlayerCount] = false;
-
-        public void InitState()
-        {
-            InitPurses();
-            InitPenalty();
-        }
-
-        public void MoveToRandomPlace(int roll)
-        {
-            CurrentPlayer.MoveToPlace(roll);
-        }
-
-        public bool CurrentPlayerIsInPenalty => _inPenaltyBox[_currentPlayer];
-
-        public int CurrentPlayersPlace => CurrentPlayer.Place;
-
-        public void MoveToNextPlayer()
-        {
-            _currentPlayer++;
-            if (_currentPlayer == PlayerCount) _currentPlayer = 0;
-
-        }
-
-        public void AddPoint()
-        {
-            _purses[_currentPlayer]++;
-        }
-
-        public bool DidPlayerWin()
-        {
-            return _purses[_currentPlayer] == 6;
-        }
-
-        public void GivePenaltyToPlayer()
-        {
-            _inPenaltyBox[_currentPlayer] = true;
-        }
-    }
-
     public class Game
     {
         readonly LinkedList<string> _popQuestions = new LinkedList<string>();
@@ -108,7 +41,6 @@ namespace UglyTrivia
         public bool Add(string playerName, Player player)
         {
             _gamePlayers.AddPlayer(player);
-            _gamePlayers.InitState();
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + _gamePlayers.PlayerCount);
@@ -204,8 +136,8 @@ namespace UglyTrivia
                 {
                     AnswerCorrectly();
 
-                    bool winner = !_gamePlayers.DidPlayerWin();
-                    
+                    bool winner = !_gamePlayers.DidCurrentPlayerWin();
+
                     _gamePlayers.MoveToNextPlayer();
 
                     return winner;
@@ -219,7 +151,7 @@ namespace UglyTrivia
 
                 AnswerCorrectly();
 
-                bool winner = !_gamePlayers.DidPlayerWin();
+                bool winner = !_gamePlayers.DidCurrentPlayerWin();
                 _gamePlayers.MoveToNextPlayer();
 
                 return winner;
@@ -229,7 +161,7 @@ namespace UglyTrivia
         private void AnswerCorrectly()
         {
             CorrectAnswerMsg();
-            _gamePlayers.AddPoint();
+            _gamePlayers.AddPointToCurrentPlayer();
             LogGamePoint();
         }
 
@@ -240,7 +172,7 @@ namespace UglyTrivia
 
         private void LogGamePoint()
         {
-            Console.WriteLine(_gamePlayers.CurrentPlayerName + " now has " + _gamePlayers._purses[_gamePlayers._currentPlayer] +
+            Console.WriteLine(_gamePlayers.CurrentPlayerName + " now has " + _gamePlayers.CurrentPlayerPoints +
                               " Gold Coins.");
         }
 
@@ -248,28 +180,10 @@ namespace UglyTrivia
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(_gamePlayers.CurrentPlayerName + " was sent to the penalty box");
-            _gamePlayers.GivePenaltyToPlayer();
+            _gamePlayers.GivePenaltyToCurrentPlayer();
 
             _gamePlayers.MoveToNextPlayer();
             return true;
-        }
-    }
-
-    public class Player
-    {
-        public string PlayerName { get; }
-        public int Place { get; private set; }
-
-        public Player(string playerName)
-        {
-            PlayerName = playerName;
-        }
-
-        public void MoveToPlace(int roll)
-        {
-            Place += roll;
-            if (Place > 11)
-                Place -= 12;
         }
     }
 }
