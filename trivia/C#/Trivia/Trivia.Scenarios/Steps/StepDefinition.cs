@@ -35,20 +35,18 @@ namespace Trivia.Scenarios.Steps
         public void WhenPlayerAnswersTheQuestionCorrectly()
         {
             _game.AnswerCorrectly();
-
-            var didPlayerWin = _game.HasCurrentPlayerWon();
+            _result = !_game.HasCurrentPlayerWon();
+            
             _game.MoveToNextPlayer();
-            _result = !didPlayerWin;
         }
 
         [When(@"Player answers the question wrongly")]
         public void WhenPlayerAnswersTheQuestionWrongly()
         {
             _game.AnswerWrongly();
+            _result = !_game.HasCurrentPlayerWon();
 
-            var didPlayerWin = _game.HasCurrentPlayerWon();
             _game.MoveToNextPlayer();
-            _result = !didPlayerWin;
         }
 
         [When(@"Repeat rolling (.*) and answering correctly for (.*) more times")]
