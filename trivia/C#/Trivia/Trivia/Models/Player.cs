@@ -6,16 +6,20 @@ namespace Trivia.Models
     {
         public string PlayerName { get; }
         public int Place { get; private set; }
+        public bool Penalty { get; private set; }
+        public int Point { get; private set; }
+        public bool Liberty { get; private set; }
+
+        public bool IsWinner => Point == 6;
 
         public Player(string playerName)
         {
             PlayerName = playerName;
             Point = 0;
+            Place = 0;
             Penalty = false;
             Liberty = false;
         }
-
-        public bool IsWinner => Point == 6;
 
         public void MoveToPlace(Roll roll)
         {
@@ -33,10 +37,6 @@ namespace Trivia.Models
         {
             Penalty = true;
         }
-
-        public bool Penalty { get; private set; }
-        public int Point { get; private set; }
-        public bool Liberty { get; private set; }
 
         public void RevokeLiberty()
         {
