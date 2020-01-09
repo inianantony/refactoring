@@ -54,6 +54,34 @@ namespace Trivia.UnitTests
         }
 
         [Test]
+        public void BeginGame_ShouldCall_AnswerCorrectly_WhenRandomizerReturnsAny_Number_OtherThan_7()
+        {
+            //Arrange
+            _moqRandomizer.Setup(a => a.NextRandomNumber(9)).Returns(1);
+            var gameService = new GameService(_moqGame.Object, _moqRandomizer.Object);
+
+            //Act
+            gameService.BeginGame();
+
+            //Assert
+            _moqGame.Verify(a => a.AnswerCorrectly(), Times.Exactly(1));
+        }
+
+        [Test]
+        public void BeginGame_ShouldCall_AnswerWrongly_WhenRandomizerReturns_7()
+        {
+            //Arrange
+            _moqRandomizer.Setup(a => a.NextRandomNumber(9)).Returns(7);
+            var gameService = new GameService(_moqGame.Object, _moqRandomizer.Object);
+
+            //Act
+            gameService.BeginGame();
+
+            //Assert
+            _moqGame.Verify(a => a.AnswerWrongly(), Times.Exactly(1));
+        }
+
+        [Test]
         public void BeginGame_ShouldCallGameMethodsAndInRespectiveOrder_WhenSomePlayerWinsIn_2nd_Call()
         {
             //Arrange

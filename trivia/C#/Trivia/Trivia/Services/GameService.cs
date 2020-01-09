@@ -58,7 +58,7 @@ namespace Trivia.Services
 
         private void PlayerAnswersQuestion()
         {
-            if (NextRandomNumber(9) == 7)
+            if (WrongAnswer())
             {
                 _aGame.AnswerWrongly();
             }
@@ -66,6 +66,11 @@ namespace Trivia.Services
             {
                 _aGame.AnswerCorrectly();
             }
+        }
+
+        private bool WrongAnswer()
+        {
+            return NextRandomNumber(9) == 7;
         }
 
         private int NextRandomNumber(int maxVal)
