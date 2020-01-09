@@ -7,7 +7,7 @@ using Trivia.Interfaces;
 using Trivia.Models;
 using Trivia.Services;
 
-namespace Trivia.UnitTests
+namespace Trivia.UnitTests.Services
 {
     [TestFixture]
     public class GameServiceTest

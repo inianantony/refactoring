@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
 using Trivia.Models;
-using Trivia;
 using Trivia.Services;
 
-namespace Trivia.UnitTests
+namespace Trivia.UnitTests.Services
 {
     [TestFixture]
     public class GameTests
@@ -39,54 +38,31 @@ namespace Trivia.UnitTests
         }
 
         [Test]
-        public void WrongAnswer_ShouldAlwaysReturn_True()
+        public void HasCurrentPlayerWon_ShouldAlwaysReturn_False_WhenPlayerAnswersWrong()
         {
             _game.Add(new Player("Player 1"));
 
             _game.AnswerWrongly();
-            var didPlayerWin = _game.HasCurrentPlayerWon();
-            _game.MoveToNextPlayer();
-            var actual = !didPlayerWin;
-            Assert.AreEqual(true, actual);
-        }
 
-        [Test]
-        public void WasCorrectlyAnswered_ShouldReturn_True()
-        {
-            _game.Add(new Player("Player 1"));
-
-            _game.AnswerCorrectly();
-            var didPlayerWin = _game.HasCurrentPlayerWon();
-            _game.MoveToNextPlayer();
-            var actual = !didPlayerWin;
-            Assert.AreEqual(true, actual);
-        }
-
-        [Test]
-        public void WasCorrectlyAnswered_ShouldReturn_False_For_6th_Call()
-        {
-            _game.Add(new Player("Player 1"));
-
-            //Make 5 calls
-            for (var i = 1; i <= 5; i++)
-            {
-                _game.AnswerCorrectly();
-                var didPlayerWin = _game.HasCurrentPlayerWon();
-                _game.MoveToNextPlayer();
-                bool temp = !didPlayerWin;
-            }
-
-            //Make 6th call
-            _game.AnswerCorrectly();
-            var didPlayerWin1 = _game.HasCurrentPlayerWon();
-            _game.MoveToNextPlayer();
-            bool actual = !didPlayerWin1;
+            var actual = _game.HasCurrentPlayerWon();
 
             Assert.AreEqual(false, actual);
         }
 
         [Test]
-        public void WasCorrectlyAnswered_ShouldReturn_True_For_7th_Call()
+        public void HasCurrentPlayerWon_ShouldReturn_False_WhenPlayerAnswerCorrectlyForLessThan6Times()
+        {
+            _game.Add(new Player("Player 1"));
+
+            _game.AnswerCorrectly();
+
+            var actual = _game.HasCurrentPlayerWon();
+
+            Assert.AreEqual(false, actual);
+        }
+
+        [Test]
+        public void HasCurrentPlayerWon_ShouldReturn_True_For_PlayerAnsweringCorrectlyFor_6_Times()
         {
             _game.Add(new Player("Player 1"));
 
@@ -94,18 +70,27 @@ namespace Trivia.UnitTests
             for (var i = 1; i <= 6; i++)
             {
                 _game.AnswerCorrectly();
-                var didPlayerWin = _game.HasCurrentPlayerWon();
-                _game.MoveToNextPlayer();
-                bool temp = !didPlayerWin;
             }
 
-            //Make 6th call
-            _game.AnswerCorrectly();
-            var didPlayerWin1 = _game.HasCurrentPlayerWon();
-            _game.MoveToNextPlayer();
-            bool actual = !didPlayerWin1;
+            var actual = _game.HasCurrentPlayerWon();
 
             Assert.AreEqual(true, actual);
+        }
+
+        [Test]
+        public void HasCurrentPlayerWon_ShouldReturn_False_For_PlayerAnsweringCorrectlyFor_7_Times()
+        {
+            _game.Add(new Player("Player 1"));
+
+            //Make 5 calls
+            for (var i = 1; i <= 7; i++)
+            {
+                _game.AnswerCorrectly();
+            }
+
+            var actual = _game.HasCurrentPlayerWon();
+
+            Assert.AreEqual(false, actual);
         }
 
     }

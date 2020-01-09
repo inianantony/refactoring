@@ -63,8 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameServiceTest.cs" />
-    <Compile Include="GameTests.cs" />
+    <Compile Include="Services\GameServiceTest.cs" />
+    <Compile Include="Services\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +75,9 @@
       <Project>{6DF4340A-A044-4593-BC79-8F7961BB91E7}</Project>
       <Name>Trivia</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
