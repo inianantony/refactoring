@@ -29,12 +29,9 @@ namespace Trivia.Services
             }
         }
 
-        private void ProcessLibertyAction(Roll roll)
+        private void LogCurrentPlayer()
         {
-            if (!_gamePlayers.CurrentPlayerIsInPenalty) return;
-
-            GrantOrRevokeLiberty(roll);
-            LogLibertyMessage(roll);
+            Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
         }
 
         private static void LogRollValue(Roll roll)
@@ -42,9 +39,12 @@ namespace Trivia.Services
             Console.WriteLine("They have rolled a " + roll.Value);
         }
 
-        private void LogCurrentPlayer()
+        private void ProcessLibertyAction(Roll roll)
         {
-            Console.WriteLine(_gamePlayers.CurrentPlayerName + " is the current player");
+            if (!_gamePlayers.CurrentPlayerIsInPenalty) return;
+
+            GrantOrRevokeLiberty(roll);
+            LogLibertyMessage(roll);
         }
 
         private void GrantOrRevokeLiberty(Roll roll)
@@ -55,15 +55,15 @@ namespace Trivia.Services
                 _gamePlayers.NoLibertyForCurrentPlayer();
         }
 
-        private bool CanGiveLiberty(Roll roll)
-        {
-            return _gamePlayers.CurrentPlayerIsInPenalty && roll.IsOddRoll();
-        }
-
         private void LogLibertyMessage(Roll roll)
         {
             bool canGiveLiberty = CanGiveLiberty(roll);
             Console.WriteLine($"{_gamePlayers.CurrentPlayerName} is{(canGiveLiberty ? "" : " not")} getting out of the penalty box");
+        }
+
+        private bool CanGiveLiberty(Roll roll)
+        {
+            return _gamePlayers.CurrentPlayerIsInPenalty && roll.IsOddRoll();
         }
 
         private void AskTheQuestion()

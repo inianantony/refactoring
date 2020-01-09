@@ -35,5 +35,70 @@ namespace Trivia.UnitTests.Models
         {
             Assert.AreEqual(false, new Player("A").Liberty);
         }
+
+        [Test]
+        public void MoveToPlace_Should_AddRollValueToExistingPlaceValue()
+        {
+            var player = new Player("A");
+
+            player.MoveToPlace(new Roll(3));
+
+            Assert.AreEqual(3,player.Place);
+
+            player.MoveToPlace(new Roll(5));
+
+            Assert.AreEqual(8, player.Place);
+        }
+
+        [Test]
+        public void AddPoint_Should_Add_One_ToExistingValue()
+        {
+            var player = new Player("A");
+
+            player.AddPoint();
+
+            Assert.AreEqual(1, player.Point);
+
+            player.AddPoint();
+
+            Assert.AreEqual(2, player.Point);
+
+        }
+
+        [Test]
+        public void SetPenalty_Should_SetPenaltyValueToTrue()
+        {
+            var player = new Player("A");
+
+            Assert.AreEqual(false, player.Penalty);
+
+            player.SetPenalty();
+
+            Assert.AreEqual(true, player.Penalty);
+
+        }
+
+        [Test]
+        public void GiveLiberty_Should_SetLibertyToTrue()
+        {
+            var player = new Player("A");
+
+            player.GiveLiberty();
+
+            Assert.AreEqual(true, player.Liberty);
+        }
+
+        [Test]
+        public void RevokeLiberty_Should_SetLibertyToFalse()
+        {
+            var player = new Player("A");
+
+            player.GiveLiberty();
+
+
+            player.RevokeLiberty();
+
+            Assert.AreEqual(false, player.Liberty);
+        }
     }
 }
