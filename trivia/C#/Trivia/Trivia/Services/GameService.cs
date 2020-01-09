@@ -15,7 +15,7 @@ namespace Trivia.Services
 
         }
 
-        public GameService(Game game, IRandomizer random)
+        public GameService(IGame game, IRandomizer random)
         {
             _aGame = game;
             _rand = random;
@@ -68,7 +68,7 @@ namespace Trivia.Services
             }
         }
 
-        public int NextRandomNumber(int maxVal)
+        private int NextRandomNumber(int maxVal)
         {
             return _rand.NextRandomNumber(maxVal);
         }
