@@ -1,9 +1,10 @@
 ﻿using System;
+using Trivia.Interfaces;
 using Trivia.Models;
 
 namespace Trivia.Services
 {
-    public class Game
+    public class Game : IGame
     {
         private readonly GamePlayers _gamePlayers;
         private readonly GameQuestions _gameQuestions;
@@ -21,7 +22,7 @@ namespace Trivia.Services
             return true;
         }
 
-        public void LogPlayerAddition(Player player)
+        private void LogPlayerAddition(Player player)
         {
             Console.WriteLine(player.PlayerName + " was added");
             Console.WriteLine("They are player number " + _gamePlayers.PlayerCount);

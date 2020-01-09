@@ -1,4 +1,5 @@
 ﻿using System;
+using Trivia.Interfaces;
 using Trivia.Models;
 
 namespace Trivia.Services
@@ -6,12 +7,18 @@ namespace Trivia.Services
     public class GameService
     {
         private bool _hasPlayerWon;
-        private readonly Game _aGame;
-        private readonly Random _rand;
-        public GameService()
+        private readonly IGame _aGame;
+        private readonly IRandomizer _rand;
+
+        public GameService() : this(new Game(), new Randomizer(new Random()))
         {
-            _aGame = new Game();
-            _rand = new Random();
+
+        }
+
+        public GameService(Game game, IRandomizer random)
+        {
+            _aGame = game;
+            _rand = random;
 
         }
         public void BeginGame()
@@ -61,9 +68,9 @@ namespace Trivia.Services
             }
         }
 
-        private int NextRandomNumber(int maxVal)
+        public int NextRandomNumber(int maxVal)
         {
-            return _rand.Next(maxVal);
+            return _rand.NextRandomNumber(maxVal);
         }
 
         private void DoRollAction()
