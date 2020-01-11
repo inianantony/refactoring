@@ -67,6 +67,7 @@
     <Compile Include="Models\GameQuestionsTest.cs" />
     <Compile Include="Models\PlayerTests.cs" />
     <Compile Include="Models\RollTests.cs" />
+    <Compile Include="Services\CorrectAnswerBehaviourTests.cs" />
     <Compile Include="Services\GameServiceTest.cs" />
     <Compile Include="Services\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
