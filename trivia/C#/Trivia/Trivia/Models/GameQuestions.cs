@@ -32,13 +32,14 @@ namespace Trivia.Models
             return type + " Question " + i;
         }
 
-        public void AskQuestion(int place)
+        public string GetAQuestion(int place)
         {
             var currentCategory = CurrentCategory(place);
             var questionList = GetQuestionList(currentCategory);
 
-            Console.WriteLine(questionList.First());
+            var question = questionList.First();
             questionList.RemoveFirst();
+            return question;
         }
 
         private LinkedList<string> GetQuestionList(string currentCategory)

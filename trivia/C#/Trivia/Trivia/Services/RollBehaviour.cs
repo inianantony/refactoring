@@ -69,7 +69,8 @@ namespace Trivia.Services
         private void AskTheQuestion()
         {
             LogQuestionCategory();
-            _gameQuestions.AskQuestion(_gamePlayers.CurrentPlayersPlace);
+            var question = _gameQuestions.GetAQuestion(_gamePlayers.CurrentPlayersPlace);
+            Console.WriteLine(question);
         }
 
         private void LogQuestionCategory()
