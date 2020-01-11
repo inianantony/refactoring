@@ -16,14 +16,14 @@ namespace Trivia.UnitTests.Models
         }
 
         [Test]
-        public void IsOddRoll_ShouldReturn_True_WhenRollvalueIsOdd()
+        public void IsOddRoll_ShouldReturn_True_WhenRollValueIsOdd()
         {
             _roll = new Roll(3);
             Assert.AreEqual(true, _roll.IsOddRoll());
         }
 
         [Test]
-        public void IsOddRoll_ShouldReturn_False_WhenRollvalueIsEven()
+        public void IsOddRoll_ShouldReturn_False_WhenRollValueIsEven()
         {
             _roll = new Roll(2);
             Assert.AreEqual(false, _roll.IsOddRoll());
