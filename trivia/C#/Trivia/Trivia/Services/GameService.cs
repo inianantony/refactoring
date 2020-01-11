@@ -33,9 +33,10 @@ namespace Trivia.Services
 
                 PlayerAnswersQuestion();
 
-                DidPlayerWin();
+                DecidePlayerWin();
 
                 MoveToNextPlayer();
+
             } while (!_hasPlayerWon);
         }
 
@@ -51,7 +52,7 @@ namespace Trivia.Services
             _aGame.MoveToNextPlayer();
         }
 
-        private void DidPlayerWin()
+        private void DecidePlayerWin()
         {
             _hasPlayerWon = _aGame.HasCurrentPlayerWon();
         }
