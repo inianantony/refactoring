@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GamePlayersTest.cs" />
     <Compile Include="Models\PlayerTests.cs" />
     <Compile Include="Services\GameServiceTest.cs" />
     <Compile Include="Services\GameTests.cs" />
