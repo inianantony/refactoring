@@ -72,6 +72,7 @@
     <Compile Include="Services\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RandomizerTests.cs" />
+    <Compile Include="Services\RollBehaviourTests.cs" />
     <Compile Include="Services\WrongAnswerBehaviourTests.cs" />
   </ItemGroup>
   <ItemGroup>
