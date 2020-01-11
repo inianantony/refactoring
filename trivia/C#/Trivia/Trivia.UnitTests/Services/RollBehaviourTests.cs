@@ -22,7 +22,6 @@ namespace Trivia.UnitTests.Services
             rollBehaviour.MakeRollAction(new Roll(3));
 
             Assert.AreEqual(true,player.Liberty);
-
         }
 
         [Test]
@@ -41,7 +40,57 @@ namespace Trivia.UnitTests.Services
             rollBehaviour.MakeRollAction(new Roll(2));
 
             Assert.AreEqual(false, player.Liberty);
-
         }
+
+        [Test]
+        public void GivenPlayerIsDidntHavePenalty_And_MakeRollAction_Should_AddRoll_ToPlayers_Place()
+        {
+            var gamePlayers = new GamePlayers();
+            var player = new Player("A");
+            gamePlayers.AddPlayer(player);
+            GameQuestions gameQuestions = new GameQuestions();
+            RollBehaviour rollBehaviour = new RollBehaviour(gamePlayers, gameQuestions);
+
+            Assert.AreEqual(0, player.Place);
+
+            rollBehaviour.MakeRollAction(new Roll(2));
+
+            Assert.AreEqual(2, player.Place);
+        }
+
+        [Test]
+        public void GivenPlayerIsInPenaltyy_And_MakeRollAction_Should_AddRoll_ToPlayers_Place_WhenPlayerMadeOddRoll()
+        {
+            var gamePlayers = new GamePlayers();
+            var player = new Player("A");
+            gamePlayers.AddPlayer(player);
+            GameQuestions gameQuestions = new GameQuestions();
+            RollBehaviour rollBehaviour = new RollBehaviour(gamePlayers, gameQuestions);
+            player.SetPenalty();
+
+            Assert.AreEqual(0, player.Place);
+
+            rollBehaviour.MakeRollAction(new Roll(3));
+
+            Assert.AreEqual(3, player.Place);
+        }
+
+        [Test]
+        public void GivenPlayerIsInPenaltyy_And_MakeRollAction_Should_Not_AddRoll_ToPlayers_Place_WhenPlayerMadeEvenRoll()
+        {
+            var gamePlayers = new GamePlayers();
+            var player = new Player("A");
+            gamePlayers.AddPlayer(player);
+            GameQuestions gameQuestions = new GameQuestions();
+            RollBehaviour rollBehaviour = new RollBehaviour(gamePlayers, gameQuestions);
+            player.SetPenalty();
+
+            Assert.AreEqual(0, player.Place);
+
+            rollBehaviour.MakeRollAction(new Roll(2));
+
+            Assert.AreEqual(0, player.Place);
+        }
+
     }
 }
